@@ -1,0 +1,419 @@
+{
+  "project": "A64Dispatch",
+  "version": "1.0.0",
+  "status": "local_delivery_complete",
+  "baseline_commit": "ef59221440234bee50d3061ce23fc3f8749afbbc",
+  "created_at": "2026-09-22T21:21:46.090699+00:00",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 94,
+      "sha256": "8cc61987d23d851d1ddc0ca1a96249c8e0be59888b1d286994ca011a2d80aa84"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 9091,
+      "sha256": "e506c9c117d6a6651b32dcb56b8af2bd86e0cdab4593d064c62cacb719238266"
+    },
+    {
+      "path": "CMakePresets.json",
+      "bytes": 825,
+      "sha256": "fd1371a669704c4b596b4f767eb9b4d97f227cce728c9fe0a4e08e283c7e771f"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 17992,
+      "sha256": "6f04ae8364d0079a192b14635f4b1da294ce18724c034c39a6a41d1b09df6100"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4773,
+      "sha256": "7243148ed4697f1ba59f75bb5184dd149d13c190b522475bfebedb2922cfe405"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 1661,
+      "sha256": "9e37cc2e558a7e2783f723d47940be38381bbea7b53bc2e574b23bf861613987"
+    },
+    {
+      "path": "app/main.cpp",
+      "bytes": 11644,
+      "sha256": "bcdeb2c7b5deef9892e7ce30bf56fe9db36c8292420e565faa240806056079d0"
+    },
+    {
+      "path": "cmake/A64DispatchConfig.cmake.in",
+      "bytes": 403,
+      "sha256": "12484d363971e70b204bf9bc9544f7a7d895196c46545569c305a9ac6649ef4f"
+    },
+    {
+      "path": "dependencies.lock.json",
+      "bytes": 1102,
+      "sha256": "b7d4c360aa0cd1518b32ff484e9099c19b5884984243f4c3209d0a70c4388cbe"
+    },
+    {
+      "path": "docs/CHECKPOINT.md",
+      "bytes": 3455,
+      "sha256": "2cd879a230257140b9fa70a0db934307fcf317ae5a20e02a1c144c2bac9f4a2e"
+    },
+    {
+      "path": "docs/CONFIG.md",
+      "bytes": 12837,
+      "sha256": "a47c2eab9a57897cbacbf2451676b90c4f2b1d7bd663d82c294dcea190c971e7"
+    },
+    {
+      "path": "docs/IMPLEMENTATION.md",
+      "bytes": 1591,
+      "sha256": "e22c830f97fe788310b2e679ed05945a56856983c08147de33314a381f8691e2"
+    },
+    {
+      "path": "docs/MIGRATION.md",
+      "bytes": 7306,
+      "sha256": "32ba761b779ee9bd4374d7e8df5ba1ee862af4b16508c4ffc82642e387093107"
+    },
+    {
+      "path": "examples/consumer/CMakeLists.txt",
+      "bytes": 223,
+      "sha256": "22acfdebfb293c8901427b4e4be868cf08a3fcd679071aaf46535b4a0b579c7e"
+    },
+    {
+      "path": "examples/consumer/main.cpp",
+      "bytes": 998,
+      "sha256": "e09603fd19e45a08786213cabb24f01c5f20dedc8617c5a4e58bbdaf991314d7"
+    },
+    {
+      "path": "include/a64dispatch/analysis.hpp",
+      "bytes": 3233,
+      "sha256": "4adae863e01e9d5dbd1d7ce95c42c93555a685802c3f0821760523f714e38005"
+    },
+    {
+      "path": "include/a64dispatch/call_models.hpp",
+      "bytes": 954,
+      "sha256": "4926b7be79263f747cb342c9a55de908095040a8a0bea152ebeaa4b564499718"
+    },
+    {
+      "path": "include/a64dispatch/execution.hpp",
+      "bytes": 1224,
+      "sha256": "7b89fbcdfa4eae8f3da6ec9142b2c9898b960b2506ef4d739be88c5a243f73cf"
+    },
+    {
+      "path": "include/a64dispatch/image.hpp",
+      "bytes": 2470,
+      "sha256": "5dd2e5bda1745a68e5ec1e726d83f03a672f33f7b99607f9b93f9e7c7c3dbc6d"
+    },
+    {
+      "path": "include/a64dispatch/instruction.hpp",
+      "bytes": 3214,
+      "sha256": "06324b81bd97f5e6f00036f5f424cff223cf2c6c845ae50e944c70c8db7a9491"
+    },
+    {
+      "path": "include/a64dispatch/process.hpp",
+      "bytes": 761,
+      "sha256": "38c120b9b29e9f7d49d8b46b42c280afc0bc7b60183529fa44850331456bf835"
+    },
+    {
+      "path": "include/a64dispatch/rewrite.hpp",
+      "bytes": 1833,
+      "sha256": "263f6a14fe43eb29c0997bb27ef45a91a09abab457b190711218f8b31f4e0a9b"
+    },
+    {
+      "path": "include/a64dispatch/workflow.hpp",
+      "bytes": 1810,
+      "sha256": "77a074d7ede2a47b284ce35b3b506da43099b72a6bbb261121e849e9f98aa3cd"
+    },
+    {
+      "path": "integrations/ida/README.md",
+      "bytes": 2407,
+      "sha256": "c1af3de38126c4e6e360277322f4410f068cb76a07748f175822c12cc1e6f65f"
+    },
+    {
+      "path": "integrations/ida/a64dispatch_bridge.py",
+      "bytes": 16520,
+      "sha256": "aad3330ae0b637486be8f3bb8ed242b442ee9837e5c8c4ca741d80816a277c09"
+    },
+    {
+      "path": "licenses/capstone-BSD.txt",
+      "bytes": 1687,
+      "sha256": "65e9ed46a59976eda8f5bd1ea79a680dea38dd299c760bc9a8d87a764ef5029b"
+    },
+    {
+      "path": "licenses/deflat64-MIT.txt",
+      "bytes": 1132,
+      "sha256": "6bf5681d0ef16251e7d95000265bfd2bf070b22d954825bccb12dc14d2152e71"
+    },
+    {
+      "path": "licenses/libgcrypt-COPYING.LIB.txt",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "path": "licenses/libgcrypt-COPYING.txt",
+      "bytes": 17984,
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    },
+    {
+      "path": "licenses/libgpg-error-COPYING.LIB.txt",
+      "bytes": 26527,
+      "sha256": "a9bdde5616ecdd1e980b44f360600ee8783b1f99b8cc83a2beb163a0a390e861"
+    },
+    {
+      "path": "licenses/libgpg-error-COPYING.txt",
+      "bytes": 18002,
+      "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+    },
+    {
+      "path": "licenses/nlohmann-json-MIT.txt",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "licenses/unicorn-GPL-2.0.txt",
+      "bytes": 17992,
+      "sha256": "6f04ae8364d0079a192b14635f4b1da294ce18724c034c39a6a41d1b09df6100"
+    },
+    {
+      "path": "licenses/unicorn-LGPL-2.1.txt",
+      "bytes": 25383,
+      "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c"
+    },
+    {
+      "path": "licenses/yaml-cpp-MIT.txt",
+      "bytes": 1061,
+      "sha256": "aa6fcc27be034e41e21dd832f9175bfe694a48491d9e14ff0fa278e19ad14f1b"
+    },
+    {
+      "path": "samples/call_cases.S",
+      "bytes": 1812,
+      "sha256": "a33e574d746035c6c7f5c03aed880757fcb595b3ea1bc82fa3a9bb5b81918446"
+    },
+    {
+      "path": "samples/dispatch_cases.S",
+      "bytes": 2815,
+      "sha256": "053932348bdf848d8f8d1746e51b07a0ddfe77443792c6e9036fc45e51544dcd"
+    },
+    {
+      "path": "samples/layout.ld",
+      "bytes": 240,
+      "sha256": "c3b58cb370fcbf52b5c5dcd41f5dfc8da217c329b355704a34c9d48e4b6c05cc"
+    },
+    {
+      "path": "samples/settings.json",
+      "bytes": 145,
+      "sha256": "79ad0d0e5a7f6e41e4109a674a122da54697e1897e895ddfcc9a79f98caa3f14"
+    },
+    {
+      "path": "samples/state_cases.S",
+      "bytes": 1620,
+      "sha256": "e6b3eaf2d82f0d4d2712c42f4d3f6ec08f89cdb86d516a38ea37fa8b1f9027ca"
+    },
+    {
+      "path": "samples/tree_cases.S",
+      "bytes": 2195,
+      "sha256": "55686af75357cc8058025a41aa3c6ca8d2a7946e9e5fd2635ff59d660c36804a"
+    },
+    {
+      "path": "samples/workflow.json",
+      "bytes": 3943,
+      "sha256": "554ba775a5f87f55ac670137081cf07e3f1580db45d029419dac562b903986f7"
+    },
+    {
+      "path": "src/aarch64/constant_tracker.cpp",
+      "bytes": 9357,
+      "sha256": "a732f451aa056e64bd3f17966b8943b6360e3e628e90a4ca304995067d223468"
+    },
+    {
+      "path": "src/aarch64/instruction_decoder.cpp",
+      "bytes": 15814,
+      "sha256": "f810324a1e56076edd98eee23349b8e9adc45667cf7d1ef201052fd1b8507f64"
+    },
+    {
+      "path": "src/analysis/dispatch_survey.cpp",
+      "bytes": 21143,
+      "sha256": "b001f171c4288dd5eb959ba935dafd3b21eafa3d8a12aa64802a75a58e333738"
+    },
+    {
+      "path": "src/analysis/state_expansion.cpp",
+      "bytes": 11411,
+      "sha256": "a0d9fa4e48c87bbbc8154172c497a0720b55d11a4e413a5688231492d601c217"
+    },
+    {
+      "path": "src/analysis/table_graph.cpp",
+      "bytes": 4037,
+      "sha256": "f4b29389f329da9977648a518d3db9dbbedb0d4dfa6f4006ba97a06b881ab0af"
+    },
+    {
+      "path": "src/analysis/target_resolver.cpp",
+      "bytes": 6527,
+      "sha256": "5057b0e9c910239282fd072c603fc4b9d1307035ffdbac25642aff7066cc333b"
+    },
+    {
+      "path": "src/analysis/transition_classifier.cpp",
+      "bytes": 8310,
+      "sha256": "454dd52c091a4ac0b79db87fb152fcd895b774566a059a802ca7b4f4f09e4e1b"
+    },
+    {
+      "path": "src/app/analysis_workflow.cpp",
+      "bytes": 19964,
+      "sha256": "03d3854f684e4d463c8d36924815716de672ffdaecbe54ccf5a98f28e93f4b6d"
+    },
+    {
+      "path": "src/app/batch_workflow.cpp",
+      "bytes": 2411,
+      "sha256": "0084a77b613bcf10ce48bce6c2fb3512fc37c74efa69f063b312a35b3145510f"
+    },
+    {
+      "path": "src/app/regression_expectations.cpp",
+      "bytes": 3507,
+      "sha256": "e430c26a2d568c9746919a931831238d65143fe69cbe95d3f134f34bdeece92d"
+    },
+    {
+      "path": "src/execution/call_models.cpp",
+      "bytes": 13318,
+      "sha256": "260140b5c7178c4cbbce57c7b3ff961508e0ef1ded51a75890ebf21aae48ba55"
+    },
+    {
+      "path": "src/execution/command_oracle.cpp",
+      "bytes": 8186,
+      "sha256": "4541d73e9a8ac8ae2f20a9ae6bb666f651e979b671d1c6fdc06d3df25ac9911d"
+    },
+    {
+      "path": "src/execution/execution_oracle.cpp",
+      "bytes": 21390,
+      "sha256": "93de306c71f86e6684fd9a038bb1a771a923bb4dd0c94785d4d704dbe244ce2b"
+    },
+    {
+      "path": "src/execution/trace_source.cpp",
+      "bytes": 2564,
+      "sha256": "851b3467d8d39d2b26fc61f4563fabb3b6892f438a66be0e41f0d6e650d940f1"
+    },
+    {
+      "path": "src/image/code_image.cpp",
+      "bytes": 22732,
+      "sha256": "bb728af66af3cca26c60a67c9936d3c25b9f7464527b09f611788205e4abf8ee"
+    },
+    {
+      "path": "src/report/artifact_reader.cpp",
+      "bytes": 8936,
+      "sha256": "f7c6b6e2880404c604b42d326f8d47cdeb5250cbde551a9a08516f6523404483"
+    },
+    {
+      "path": "src/report/artifacts.cpp",
+      "bytes": 3398,
+      "sha256": "fcd570c461a2caf915b5b7101ccdcdad65dee4679000dce6b62b922ad5b48cf2"
+    },
+    {
+      "path": "src/rewrite/cleanup_proposals.cpp",
+      "bytes": 4896,
+      "sha256": "37c45f556354ca320366b568bfcd8d6cd79016e9f570593c46860c24c79781a2"
+    },
+    {
+      "path": "src/rewrite/rewrite_planner.cpp",
+      "bytes": 23461,
+      "sha256": "03c48c9f8a32fabd7c4f7ae2facd7fba54eb84a9103bbc7bfe24846554d00c2c"
+    },
+    {
+      "path": "src/rewrite/rewrite_transaction.cpp",
+      "bytes": 5518,
+      "sha256": "6fbd617c32f0bca03d88376a0cb8176a99acb226c41a38f9c9bbd3a45ffa9b84"
+    },
+    {
+      "path": "src/system/process_runner.cpp",
+      "bytes": 8075,
+      "sha256": "beaca0aaf2ae8e8890cd5061c63c9d83a1b3f24ccd56c9a14c4079a31def9ac8"
+    },
+    {
+      "path": "tests/fuzz/analysis_driver.cpp",
+      "bytes": 3012,
+      "sha256": "692be7a6f37c4a4e9227cc0875ce19a726b8ef3822688d00c1c1bd8cb1c15d8f"
+    },
+    {
+      "path": "tests/integration/call_models.cpp",
+      "bytes": 16015,
+      "sha256": "0165cafed0a56b7f72886d360c2a97a3f36bb99821f097344f9a1922063b9df7"
+    },
+    {
+      "path": "tests/integration/contracts.cpp",
+      "bytes": 7670,
+      "sha256": "a2eff7639e0df07b0bbacab3214914bdbf144e0bbc77caa0497f7a794a6e3c1f"
+    },
+    {
+      "path": "tests/integration/ida_session.py",
+      "bytes": 6734,
+      "sha256": "f108e20d56b20683537c0e0facc2ca1bff287c859f5ea06e043389ab94271da6"
+    },
+    {
+      "path": "tests/integration/sample_pipeline.cpp",
+      "bytes": 11346,
+      "sha256": "4074c47103f9306b8510d21972fb6034cdf85112ba3dd59ed48451e43737a7a4"
+    },
+    {
+      "path": "tests/integration/state_pipeline.cpp",
+      "bytes": 6844,
+      "sha256": "aa213e32249afb8c668673c1e68a29e7a3fc15978d407a69772aeaf689b4c346"
+    },
+    {
+      "path": "tests/integration/tree_pipeline.cpp",
+      "bytes": 5863,
+      "sha256": "1e52cd1aed99f796bf16bf65f9e761c196160dcacd5843100cf4e02e7d493f0b"
+    },
+    {
+      "path": "tests/integration/workflow.cpp",
+      "bytes": 19178,
+      "sha256": "41f1efecfcf94bed04a67ce27a0bf79e1d72b1302979b3521283ab1eaa7e9f0e"
+    },
+    {
+      "path": "tests/unit/cleanup_tests.cpp",
+      "bytes": 5299,
+      "sha256": "4d2ff85623d075e8a3a69b65afab1546f06941f60cd27895103a5dc840682e96"
+    },
+    {
+      "path": "tests/unit/flat_mapping.cpp",
+      "bytes": 6284,
+      "sha256": "96ef5c00afa64bce5dad2ef46617add91ea866dc563685cf70107671ac8631c3"
+    },
+    {
+      "path": "tests/unit/foundation_tests.cpp",
+      "bytes": 8098,
+      "sha256": "857eb95d5266560140672f5f7d335df4c76156396a185f5e319368d405018986"
+    },
+    {
+      "path": "tests/unit/table_graph.cpp",
+      "bytes": 4692,
+      "sha256": "a47711a514d077106afa9f7f19816eba2128cf8109d440e4be3326767d3ff457"
+    },
+    {
+      "path": "tools/oracle_worker.cpp",
+      "bytes": 1973,
+      "sha256": "3f59651a83007ac522d5a391dbc860d67e0ead6e6fecf98120f0e4d3c5a50fc3"
+    }
+  ],
+  "verification": {
+    "debug": {
+      "checks": 693,
+      "ctest_programs": 10,
+      "sha256": "6405dd8ac591fca03e81b2a428d77a1782dc9443c2fc27e4f928de89fab6ae87"
+    },
+    "release": {
+      "checks": 693,
+      "ctest_programs": 10,
+      "sha256": "d27f7a165121e95370c7adc63b1b2166f6d5e10f9699fc8c9fb5d971d014e975"
+    },
+    "sanitize": {
+      "checks": 693,
+      "ctest_programs": 10,
+      "sha256": "59aa56f4f7b4188dc1689e08a707eea0780979dbb46587250e00e8c25c81859a"
+    }
+  },
+  "ida_checks": 26,
+  "fuzz": {
+    "seed": 9808,
+    "runs": 860,
+    "seconds": 31
+  },
+  "platform": "ProductName:\t\tmacOS\nProductVersion:\t\t26.7\nBuildVersion:\t\t25G229",
+  "architecture": "arm64",
+  "limitations": [
+    "Linux/Windows not run",
+    "Unicorn neutral-fixture validation is not formal equivalence",
+    "External runtime dependencies not bundled"
+  ]
+}

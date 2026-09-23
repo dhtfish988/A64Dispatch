@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.24)
+project(A64DispatchConsumer LANGUAGES CXX)
+find_package(A64Dispatch 1 CONFIG REQUIRED)
+add_executable(consumer main.cpp)
+target_link_libraries(consumer PRIVATE A64Dispatch::a64dispatch)
