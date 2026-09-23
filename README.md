@@ -61,8 +61,10 @@ and [validation record](docs/CHECKPOINT.md).
 The functional baseline is deflat64 commit
 `ef59221440234bee50d3061ce23fc3f8749afbbc`, itself based on DumpA1n's MIT-licensed
 [unflatten64](https://github.com/DumpA1n/unflatten64). That baseline's pure Python
-suite was rerun in an isolated copy: 88 cases passed. Its unvalidated IDA paths are
-replaced and tested locally; they are not treated as established correctness evidence.
+suite was rerun in an isolated copy: 88 cases passed. The baseline did not validate
+its own IDA paths. This repository replaces those paths: IDA 9.4 ran 26 checks on
+one owned fixture, including instruction writes and restoration. Finite checks do
+not prove that a rewritten branch matches every input.
 
 New implementation: copyright 2026 dhtfish98, licensed under GPL-2.0-only. The
 native build links Unicorn; this distribution retains its GPL license together
