@@ -113,7 +113,7 @@ install(TARGETS a64dispatch a64-dispatch a64-oracle-worker
  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(DIRECTORY docs integrations licenses examples samples
+install(DIRECTORY docs integrations licenses examples samples validation
  DESTINATION ${CMAKE_INSTALL_DATADIR}/A64Dispatch
  PATTERN "__pycache__" EXCLUDE)
 install(FILES README.md LICENSE THIRD_PARTY_NOTICES.md dependencies.lock.json

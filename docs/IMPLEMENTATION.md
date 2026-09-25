@@ -7,10 +7,13 @@ live in C++. IDAPython contains only host export, subprocess and database transa
 transport. Standard AArch64/IDA interfaces and inherited license notices retain
 their original names; project-owned APIs and implementation structure are new.
 
-The functional migration inventory is MIGRATION.md. CHECKPOINT.md records the
-actual final checks: Debug/Release/ASan+UBSan each 693, real IDA 26, short fuzz 860,
-installed independent C++ consumer, and installed CLI sample roundtrip. No success
-is inferred from an old report or merely from compiling a bridge file.
+The functional migration inventory is MIGRATION.md. CHECKPOINT.md separates the
+2026-09-25 native review (Debug/Release/ASan+UBSan each 707, installed consumer and
+CLI sample roundtrip) from the 2026-09-23 acceptance (693 native checks per profile,
+26 IDA host checks and a short 860-execution fuzz run). A separate 2026-09-25 IDA 9.4
+run passed all 26 host checks with the current Debug native binary on one new
+disposable fixture database. It does not establish Release host behavior or
+arbitrary-target coverage. Public evidence links are in ../validation/README.md.
 
 Unknown effects, table instability, shared/interior entries, uncovered edited
 instructions and uncovered candidate branch outcomes prevent byte commitment.

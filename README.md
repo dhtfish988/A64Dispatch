@@ -1,9 +1,15 @@
 # A64Dispatch
 
 A C++20 library and CLI for AArch64 dispatch analysis, control-flow reports and
-verified same-size branch rewriting. Version 1.0.0 is validated locally on macOS arm64.
+same-size branch rewriting gated by known-vector and coverage checks.
+Version 1.0.0 is validated on macOS arm64.
 The [validation summary](validation/README.md) records the local acceptance
 scope and explains availability of the detailed evidence.
+
+The CLI produces reports and candidate snapshots without overwriting input files.
+The optional IDAPython bridge exports an IDA database, asks the native program to
+analyze it, and submits accepted byte edits or candidate graph references on IDA's main thread.
+This is a new workflow and configuration schema, not a drop-in Python API replacement.
 
 The native library currently provides mapped ELF64/snapshot/flat-file inputs, instruction
 semantics, bounded constant and binary-choice tracking, two-level and single-level
@@ -32,13 +38,20 @@ ctest --preset debug --verbose
 ```
 
 The test build compiles the neutral AArch64 assembly in `samples/dispatch_cases.S`
-using a cross-target LLVM compiler and ELF linker. A separate IDA 9.4 database was
-created from this fixture for 26 successful host integration checks, including
-actual byte/graph application, restoration and injected host failures. The
+using a cross-target LLVM compiler and ELF linker. The historical
+[IDA 9.4 check record](validation/ida-2026-09-23.json) contains 26 successful checks
+on one fresh fixture database on 2026-09-23, including byte/graph application,
+restoration and injected host failures. A separate
+[2026-09-25 IDA run](validation/ida-2026-09-25.json) passed the same 26 checks with
+the current Debug native binary and a new disposable database for that fixture.
+It did not test the Release binary in IDA or arbitrary existing databases. The
 2026-09-25 native review passes 707 checks in each of Debug, Release and ASan/UBSan.
 It closes supplied-candidate verification and omitted branch-target validation
 gaps; see the [review record](docs/CHECKPOINT.md). An independent installed C++ consumer has
 executed the library and exact graph restoration. Linux/Windows execution is OPEN.
+The [hosted Release run for commit `0ea2ca9`](https://github.com/dhtfish988/A64Dispatch/actions/runs/36086125433)
+also passed all 707 checks and the installed consumer; see its
+[scope and artifact digest summary](validation/hosted-release-2026-09-25.json).
 
 Current development commands:
 
@@ -64,9 +77,10 @@ The functional baseline is deflat64 commit
 `ef59221440234bee50d3061ce23fc3f8749afbbc`, itself based on DumpA1n's MIT-licensed
 [unflatten64](https://github.com/DumpA1n/unflatten64). That baseline's pure Python
 suite was rerun in an isolated copy: 88 cases passed. The baseline did not validate
-its own IDA paths. This repository replaces those paths: IDA 9.4 ran 26 checks on
-one owned fixture, including instruction writes and restoration. Finite checks do
-not prove that a rewritten branch matches every input.
+its own IDA paths. Native analysis and the host transport are implemented here;
+the IDA results above cover one owned fixture, not every baseline
+workflow or arbitrary binaries. Finite checks do not prove that a rewritten
+branch matches every input.
 
 New implementation: copyright 2026 dhtfish98, licensed under GPL-2.0-only. The
 native build links Unicorn; this distribution retains its GPL license together

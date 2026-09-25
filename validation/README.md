@@ -32,12 +32,30 @@ licenses and source provenance remain available here.
 Historical IDA 9.4 result (2026-09-23): 26 actual host checks on an owned fixture, including apply, restore and
 fault rollback. Installed CLI: 28 sample vectors; a separate consumer analyzed
 seven sites and restored the original graph fingerprint. See `docs/CHECKPOINT.md`.
+The [historical IDA summary](ida-2026-09-23.json) publishes all 26 check results,
+fixture/test/bridge hashes and the limits of that run. The
+[host reproduction guide](../integrations/ida/README.md#reproduce-the-owned-fixture-checks)
+uses a fresh disposable database. Publishing this existing record is not a new IDA run.
+
+A separate [current Debug IDA result](ida-2026-09-25.json) records 26/26 checks on
+2026-09-25 using the unchanged test script, the native source at `0ea2ca9`, and a
+new disposable database containing only the owned assembly fixture. It records
+the run times and source, Debug executable, IDA tool and fixture hashes. Actual
+byte edits, graph changes and restoration passed; the temporary database was
+removed and no existing user session was accessed. This was not a Release host
+test or an expansion to other target binaries.
 
 ## Current review evidence
 
 - [Machine-readable review result](current-review.json) and [sanitized test transcripts](review-2026-09-25/).
 - [CMake 3.24 preset compatibility result](current-review-build.json).
+- [Hosted Release run 36086125433](https://github.com/dhtfish988/A64Dispatch/actions/runs/36086125433)
+  passed 707 checks in ten programs and the installed consumer at commit
+  [`0ea2ca926c691037a3a7c377deed4f2bbb213976`](https://github.com/dhtfish988/A64Dispatch/commit/0ea2ca926c691037a3a7c377deed4f2bbb213976).
+  The [artifact summary](hosted-release-2026-09-25.json) records counts and log hashes;
+  this job did not execute IDA, fuzzing, Debug or sanitizer tests.
 - [GitHub macOS verification](https://github.com/dhtfish988/A64Dispatch/actions/workflows/verify.yml) builds Release, runs the tests, installs the package and exercises an independent consumer. Read the result for the exact commit; a workflow file alone is not a successful run.
 
 The original 1.0.0 archives remain historical artifacts. Use the current Git commit
-for these fixes. This review did not repeat earlier fuzz, system-corpus or IDA runs.
+for these fixes. Earlier fuzz runs were not repeated. The native
+review and the subsequent targeted Debug IDA run are separate evidence records.

@@ -1,0 +1,81 @@
+{
+  "record_kind": "hosted Release verification of the exact identified commit",
+  "run_id": 36086125433,
+  "run_url": "https://github.com/dhtfish988/A64Dispatch/actions/runs/36086125433",
+  "head_commit": "0ea2ca926c691037a3a7c377deed4f2bbb213976",
+  "head_url": "https://github.com/dhtfish988/A64Dispatch/commit/0ea2ca926c691037a3a7c377deed4f2bbb213976",
+  "ctest": {
+    "programs": 10,
+    "checks": 707,
+    "failures": 0,
+    "details": [
+      {
+        "name": "foundation-contract",
+        "checks": 239,
+        "failures": 0
+      },
+      {
+        "name": "cleanup-contract",
+        "checks": 17,
+        "failures": 0
+      },
+      {
+        "name": "table-graph-contract",
+        "checks": 14,
+        "failures": 0
+      },
+      {
+        "name": "flat-image-contract",
+        "checks": 19,
+        "failures": 0
+      },
+      {
+        "name": "sample-pipeline",
+        "checks": 136,
+        "failures": 0
+      },
+      {
+        "name": "artifact-process-contract",
+        "checks": 52,
+        "failures": 0
+      },
+      {
+        "name": "workflow-contract",
+        "checks": 90,
+        "failures": 0
+      },
+      {
+        "name": "call-model-contract",
+        "checks": 54,
+        "failures": 0
+      },
+      {
+        "name": "tree-pipeline",
+        "checks": 63,
+        "failures": 0
+      },
+      {
+        "name": "state-pipeline",
+        "checks": 23,
+        "failures": 0
+      }
+    ]
+  },
+  "installed_consumer": {
+    "passed": true,
+    "output": "Independent installed consumer: 7 sites; graph transaction and exact restore passed",
+    "scope": "Separate CMake consumer imports the installed target, analyzes seven synthetic-fixture sites, applies graph metadata and restores the exact original fingerprint."
+  },
+  "artifact_log_sha256": {
+    "ctest.txt": "e1a4d93ab7c30e37dca149308e8b9e21ebcad0ba66f1456752e704a1c43e50d0",
+    "test-inventory.json": "829076ac3a1b52026fec9fd5d6820b5de9230ad3c85d50d561db3809d4ff2f47",
+    "consumer.txt": "b6fd419b06415d75580e70aae0f02827dec0146656c00948ced613a618bd61d7",
+    "toolchain.txt": "bf3f617ddf82d23f3790b216dfdeba0593d1feb46b5dde84cdd124b74f6b91bd"
+  },
+  "limitations": [
+    "Hosted job runs Release, not the locally recorded Debug or ASan/UBSan configurations.",
+    "Hosted job does not run IDA or repeat the historical fuzz run.",
+    "Finite synthetic-fixture checks do not prove behavior on arbitrary binaries or all-input equivalence."
+  ],
+  "evidence_note": "Counts and consumer output were checked against the downloaded artifact for this run. Actions artifacts have limited retention; exact run and commit links identify the hosted result."
+}

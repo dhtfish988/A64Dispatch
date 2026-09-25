@@ -43,5 +43,40 @@ state drift. Call models do not supply IDA decompiler or switch-info reconstruct
 assembled dispatch fixture. It checks preview, actual byte application, repeated
 application, saved-receipt restore, unrelated drift, forged ownership logs,
 pre-existing graph references and injected byte/reference failures. The recorded
-26 checks passed; see `../evidence/deflat64/ida-integration.json` from the project
-root. This covers the stated fixture and host version, not arbitrary databases.
+26 checks passed on 2026-09-23; the [published historical summary](../../validation/ida-2026-09-23.json)
+contains the check list and source hashes. This covers the stated fixture and host
+version, not arbitrary databases or the later native fixes.
+
+The unchanged script was run again on 2026-09-25 with the current Debug native
+binary in a separate autonomous IDA 9.4 process. All 26 checks passed on a new
+disposable database for the same owned fixture. The [current run record](../../validation/ida-2026-09-25.json)
+binds the result to the source, Debug executable, tool and fixture hashes and
+records cleanup. Existing user sessions were not accessed. This does not claim a
+Release host run or coverage of other binaries.
+
+## Reproduce the owned fixture checks
+
+Build the Debug preset from the repository root as described in the main README.
+It produces `build/debug/a64-dispatch` and `build/debug/dispatch_cases.elf`.
+Open that ELF in a **fresh disposable IDA 9.4 database** and let analysis finish.
+In that IDA instance's Python console, run the checked-in test script:
+
+```python
+import os
+import tempfile
+from pathlib import Path
+
+os.environ["A64DISPATCH_EVIDENCE"] = tempfile.mkdtemp(prefix="a64dispatch-ida-check-")
+print("Evidence directory:", os.environ["A64DISPATCH_EVIDENCE"])
+script = Path("/absolute/path/to/A64Dispatch/tests/integration/ida_session.py")
+exec(compile(script.read_text(encoding="utf-8"), str(script), "exec"),
+     {"__file__": str(script), "__name__": "__main__"})
+```
+
+The script modifies and restores only this disposable fixture database, writes
+`ida-integration.json` and related receipts to the printed directory, and exits
+that IDA instance with its test status. Read the result's `passed`, `failure` and
+individual `checks` fields. Running a newer checkout produces new evidence; the
+published results apply to their recorded source and executable hashes. The
+2026-09-23 result remains historical, and the 2026-09-25 result covers the stated
+Debug binary only.

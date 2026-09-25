@@ -5,7 +5,16 @@ Evidence filenames and workspace-relative paths below refer to local validation 
 A64Dispatch 1.0.0 has completed local macOS implementation and delivery
 verification. This record does not claim arbitrary-input equivalence.
 
-## Review — 2026-09-25
+## Subsequent IDA check — 2026-09-25
+
+After the native review below, the current Debug binary passed 26/26 checks in
+an independent IDA 9.4 process on a fresh disposable database of the owned
+fixture. Actual byte application, graph changes, restoration and failure rollback
+passed. The [new host record](../validation/ida-2026-09-25.json) binds the run to
+source and executable hashes. This does not establish a Release host result or
+coverage of arbitrary databases; historical results below keep their original scope.
+
+## Native review — 2026-09-25
 
 - Reproduced and fixed supplied-candidate verification accepting unplanned bytes,
   memory permissions and graph metadata when finite known outputs happened to
@@ -25,8 +34,9 @@ verification. This record does not claim arbitrary-input equivalence.
   seven sites, graph application and exact restoration passed. The installed CLI
   passed the 28-vector sample through apply, supplied-candidate verification,
   regression and restoration.
-- This review reran the native suites on macOS arm64. The IDA and fuzz results
-  below belong to the original acceptance and were not rerun for this patch.
+- This review initially reran the native suites on macOS arm64. The IDA and fuzz
+  results in the original-acceptance section belong to that earlier run; the
+  subsequent current Debug IDA check is recorded separately above.
 
 ## Original delivery verification — 2026-09-23
 

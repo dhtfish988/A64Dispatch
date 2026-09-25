@@ -1,0 +1,199 @@
+{
+  "record_kind": "current native Debug host integration on one owned fixture",
+  "date": "2026-09-25",
+  "started_at_utc": "2026-09-25T05:19:38.399029+00:00",
+  "ended_at_utc": "2026-09-25T05:19:39.834451+00:00",
+  "production_commit": "0ea2ca926c691037a3a7c377deed4f2bbb213976",
+  "production_source_matches_commit": true,
+  "profile": "Debug",
+  "host": {
+    "ida_version": "9.4",
+    "mode": "independent autonomous idat process",
+    "platform": "macOS arm64",
+    "idat_executable_sha256": "387d681d6fb4f4c1c485a60025cae3f0affa6f5ea1efce3b1809639cb1aaeb28"
+  },
+  "native_binary": {
+    "path": "build/debug/a64-dispatch",
+    "sha256": "c8f58b7dd65d77d7b8bda4939a25b89ee8f9738067ba54ef3938fabdb696e958",
+    "build_confirmation": "The Debug native and fixture targets were checked immediately before this run; Ninja reported no work to do."
+  },
+  "fixture": {
+    "source": "samples/dispatch_cases.S",
+    "source_sha256": "053932348bdf848d8f8d1746e51b07a0ddfe77443792c6e9036fc45e51544dcd",
+    "binary_sha256": "268cbe33c3fda09330cd994d7920188a4cce6f1537c4dbb784f8bad04016ed76",
+    "database": "new disposable database created from a temporary copy of the owned ELF",
+    "exported_function_ranges": 7,
+    "applied_instructions": 6
+  },
+  "test_script": {
+    "path": "tests/integration/ida_session.py",
+    "sha256": "f108e20d56b20683537c0e0facc2ca1bff287c859f5ea06e043389ab94271da6",
+    "modified_for_this_run": false
+  },
+  "production_source_sha256": {
+    "app/main.cpp": "bcdeb2c7b5deef9892e7ce30bf56fe9db36c8292420e565faa240806056079d0",
+    "include/a64dispatch/analysis.hpp": "4adae863e01e9d5dbd1d7ce95c42c93555a685802c3f0821760523f714e38005",
+    "include/a64dispatch/call_models.hpp": "4926b7be79263f747cb342c9a55de908095040a8a0bea152ebeaa4b564499718",
+    "include/a64dispatch/execution.hpp": "7b89fbcdfa4eae8f3da6ec9142b2c9898b960b2506ef4d739be88c5a243f73cf",
+    "include/a64dispatch/image.hpp": "5dd2e5bda1745a68e5ec1e726d83f03a672f33f7b99607f9b93f9e7c7c3dbc6d",
+    "include/a64dispatch/instruction.hpp": "06324b81bd97f5e6f00036f5f424cff223cf2c6c845ae50e944c70c8db7a9491",
+    "include/a64dispatch/process.hpp": "38c120b9b29e9f7d49d8b46b42c280afc0bc7b60183529fa44850331456bf835",
+    "include/a64dispatch/rewrite.hpp": "263f6a14fe43eb29c0997bb27ef45a91a09abab457b190711218f8b31f4e0a9b",
+    "include/a64dispatch/workflow.hpp": "77a074d7ede2a47b284ce35b3b506da43099b72a6bbb261121e849e9f98aa3cd",
+    "integrations/ida/a64dispatch_bridge.py": "aad3330ae0b637486be8f3bb8ed242b442ee9837e5c8c4ca741d80816a277c09",
+    "samples/call_cases.S": "a33e574d746035c6c7f5c03aed880757fcb595b3ea1bc82fa3a9bb5b81918446",
+    "samples/dispatch_cases.S": "053932348bdf848d8f8d1746e51b07a0ddfe77443792c6e9036fc45e51544dcd",
+    "samples/layout.ld": "c3b58cb370fcbf52b5c5dcd41f5dfc8da217c329b355704a34c9d48e4b6c05cc",
+    "samples/settings.json": "79ad0d0e5a7f6e41e4109a674a122da54697e1897e895ddfcc9a79f98caa3f14",
+    "samples/state_cases.S": "e6b3eaf2d82f0d4d2712c42f4d3f6ec08f89cdb86d516a38ea37fa8b1f9027ca",
+    "samples/tree_cases.S": "55686af75357cc8058025a41aa3c6ca8d2a7946e9e5fd2635ff59d660c36804a",
+    "samples/workflow.json": "554ba775a5f87f55ac670137081cf07e3f1580db45d029419dac562b903986f7",
+    "src/aarch64/constant_tracker.cpp": "a732f451aa056e64bd3f17966b8943b6360e3e628e90a4ca304995067d223468",
+    "src/aarch64/instruction_decoder.cpp": "f810324a1e56076edd98eee23349b8e9adc45667cf7d1ef201052fd1b8507f64",
+    "src/analysis/dispatch_survey.cpp": "b001f171c4288dd5eb959ba935dafd3b21eafa3d8a12aa64802a75a58e333738",
+    "src/analysis/state_expansion.cpp": "a0d9fa4e48c87bbbc8154172c497a0720b55d11a4e413a5688231492d601c217",
+    "src/analysis/table_graph.cpp": "f4b29389f329da9977648a518d3db9dbbedb0d4dfa6f4006ba97a06b881ab0af",
+    "src/analysis/target_resolver.cpp": "5057b0e9c910239282fd072c603fc4b9d1307035ffdbac25642aff7066cc333b",
+    "src/analysis/transition_classifier.cpp": "454dd52c091a4ac0b79db87fb152fcd895b774566a059a802ca7b4f4f09e4e1b",
+    "src/app/analysis_workflow.cpp": "c3258c5d8e290a8499fcf6cf985ab6b95890d3662b55a9ace7ec50ba96544ae8",
+    "src/app/batch_workflow.cpp": "0084a77b613bcf10ce48bce6c2fb3512fc37c74efa69f063b312a35b3145510f",
+    "src/app/regression_expectations.cpp": "e430c26a2d568c9746919a931831238d65143fe69cbe95d3f134f34bdeece92d",
+    "src/execution/call_models.cpp": "260140b5c7178c4cbbce57c7b3ff961508e0ef1ded51a75890ebf21aae48ba55",
+    "src/execution/command_oracle.cpp": "4541d73e9a8ac8ae2f20a9ae6bb666f651e979b671d1c6fdc06d3df25ac9911d",
+    "src/execution/execution_oracle.cpp": "93de306c71f86e6684fd9a038bb1a771a923bb4dd0c94785d4d704dbe244ce2b",
+    "src/execution/trace_source.cpp": "851b3467d8d39d2b26fc61f4563fabb3b6892f438a66be0e41f0d6e650d940f1",
+    "src/image/code_image.cpp": "bb728af66af3cca26c60a67c9936d3c25b9f7464527b09f611788205e4abf8ee",
+    "src/report/artifact_reader.cpp": "f7c6b6e2880404c604b42d326f8d47cdeb5250cbde551a9a08516f6523404483",
+    "src/report/artifacts.cpp": "fcd570c461a2caf915b5b7101ccdcdad65dee4679000dce6b62b922ad5b48cf2",
+    "src/rewrite/cleanup_proposals.cpp": "37c45f556354ca320366b568bfcd8d6cd79016e9f570593c46860c24c79781a2",
+    "src/rewrite/rewrite_planner.cpp": "03c48c9f8a32fabd7c4f7ae2facd7fba54eb84a9103bbc7bfe24846554d00c2c",
+    "src/rewrite/rewrite_transaction.cpp": "ee9afb7c0ff0b8afac44b56e94c1522549bf55b0579e798e06c4bfcd2d5a6dc6",
+    "src/system/process_runner.cpp": "beaca0aaf2ae8e8890cd5061c63c9d83a1b3f24ccd56c9a14c4079a31def9ac8",
+    "tests/integration/ida_session.py": "f108e20d56b20683537c0e0facc2ca1bff287c859f5ea06e043389ab94271da6",
+    "tools/oracle_worker.cpp": "3f59651a83007ac522d5a391dbc860d67e0ead6e6fecf98120f0e4d3c5a50fc3"
+  },
+  "check_count": 26,
+  "passed": true,
+  "exit_code": 0,
+  "elapsed_seconds": 1.38,
+  "checks": [
+    {
+      "name": "real IDA exports seven function ranges",
+      "passed": true
+    },
+    {
+      "name": "native preview contains concrete edits",
+      "passed": true
+    },
+    {
+      "name": "preview preserves complete IDA snapshot",
+      "passed": true
+    },
+    {
+      "name": "native candidate vectors pass before host submit",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "repeated host application is idempotent",
+      "passed": true
+    },
+    {
+      "name": "restore refuses unrelated changed instruction",
+      "passed": true
+    },
+    {
+      "name": "failed restore leaves drifted bytes intact",
+      "passed": true
+    },
+    {
+      "name": "saved receipt resumes and restores through native source check",
+      "passed": true
+    },
+    {
+      "name": "restoration recovers exact original IDA memory and user references",
+      "passed": true
+    },
+    {
+      "name": "host restore is idempotent",
+      "passed": true
+    },
+    {
+      "name": "forged host ownership log is refused",
+      "passed": true
+    },
+    {
+      "name": "injected byte failure is caught",
+      "passed": true
+    },
+    {
+      "name": "injected byte failure leaves no partial transaction",
+      "passed": true
+    },
+    {
+      "name": "prepare pre-existing user graph edge",
+      "passed": true
+    },
+    {
+      "name": "pre-existing user edge is not claimed by the transaction",
+      "passed": true
+    },
+    {
+      "name": "graph mode preserves all code bytes",
+      "passed": true
+    },
+    {
+      "name": "graph restore preserves prior user references",
+      "passed": true
+    },
+    {
+      "name": "injected reference failure is caught",
+      "passed": true
+    },
+    {
+      "name": "reference failure rolls back only new edges",
+      "passed": true
+    },
+    {
+      "name": "fixture database ends with original memory and user references",
+      "passed": true
+    }
+  ],
+  "input_copy_unchanged": true,
+  "temporary_database_directory_removed": true,
+  "production_sources_unchanged_during_run": true,
+  "native_binary_unchanged_during_run": true,
+  "existing_user_sessions_accessed": false,
+  "raw_check_report_sha256": "bbdc3de044aa41c311e30b10f256d4922ead222641cc71dcc99f818bfc798cff",
+  "reproduction_guide": "../integrations/ida/README.md#reproduce-the-owned-fixture-checks",
+  "limits": [
+    "Debug native binary only; this is not a Release host run.",
+    "One self-authored assembly fixture in a fresh database; no existing user database was analyzed.",
+    "No arbitrary-target or compiler-generated obfuscation corpus was validated.",
+    "Finite known vectors and coverage checks do not prove all-input equivalence."
+  ],
+  "publication_note": "Sanitized summary of the new run; no private workspace paths, existing-session identifiers, IDA databases or database snapshot payloads are published."
+}

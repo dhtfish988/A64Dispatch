@@ -1,0 +1,145 @@
+{
+  "record_kind": "historical local IDA host integration, not rerun for the 2026-09-25 native review",
+  "acceptance_date": "2026-09-23",
+  "date_basis": "Original acceptance manifest created_at 2026-09-22T21:21:46.090699+00:00, which is 2026-09-23 in the local Asia/Tokyo timezone; the check report did not contain a separate execution timestamp.",
+  "host": {
+    "ida_version": "9.4",
+    "platform": "macOS arm64"
+  },
+  "fixture": {
+    "kind": "new owned synthetic assembly; fresh disposable IDA database",
+    "source": "samples/dispatch_cases.S",
+    "source_sha256": "053932348bdf848d8f8d1746e51b07a0ddfe77443792c6e9036fc45e51544dcd",
+    "linker_script": "samples/layout.ld",
+    "linker_script_sha256": "c3b58cb370fcbf52b5c5dcd41f5dfc8da217c329b355704a34c9d48e4b6c05cc",
+    "exported_function_ranges": 7,
+    "applied_instructions": 6
+  },
+  "test_script": {
+    "path": "tests/integration/ida_session.py",
+    "sha256": "f108e20d56b20683537c0e0facc2ca1bff287c859f5ea06e043389ab94271da6"
+  },
+  "bridge": {
+    "path": "integrations/ida/a64dispatch_bridge.py",
+    "sha256": "aad3330ae0b637486be8f3bb8ed242b442ee9837e5c8c4ca741d80816a277c09"
+  },
+  "check_count": 26,
+  "passed": true,
+  "checks": [
+    {
+      "name": "real IDA exports seven function ranges",
+      "passed": true
+    },
+    {
+      "name": "native preview contains concrete edits",
+      "passed": true
+    },
+    {
+      "name": "preview preserves complete IDA snapshot",
+      "passed": true
+    },
+    {
+      "name": "native candidate vectors pass before host submit",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "IDA contains a verified replacement instruction",
+      "passed": true
+    },
+    {
+      "name": "repeated host application is idempotent",
+      "passed": true
+    },
+    {
+      "name": "restore refuses unrelated changed instruction",
+      "passed": true
+    },
+    {
+      "name": "failed restore leaves drifted bytes intact",
+      "passed": true
+    },
+    {
+      "name": "saved receipt resumes and restores through native source check",
+      "passed": true
+    },
+    {
+      "name": "restoration recovers exact original IDA memory and user references",
+      "passed": true
+    },
+    {
+      "name": "host restore is idempotent",
+      "passed": true
+    },
+    {
+      "name": "forged host ownership log is refused",
+      "passed": true
+    },
+    {
+      "name": "injected byte failure is caught",
+      "passed": true
+    },
+    {
+      "name": "injected byte failure leaves no partial transaction",
+      "passed": true
+    },
+    {
+      "name": "prepare pre-existing user graph edge",
+      "passed": true
+    },
+    {
+      "name": "pre-existing user edge is not claimed by the transaction",
+      "passed": true
+    },
+    {
+      "name": "graph mode preserves all code bytes",
+      "passed": true
+    },
+    {
+      "name": "graph restore preserves prior user references",
+      "passed": true
+    },
+    {
+      "name": "injected reference failure is caught",
+      "passed": true
+    },
+    {
+      "name": "reference failure rolls back only new edges",
+      "passed": true
+    },
+    {
+      "name": "fixture database ends with original memory and user references",
+      "passed": true
+    }
+  ],
+  "original_check_report_sha256": "bbdc3de044aa41c311e30b10f256d4922ead222641cc71dcc99f818bfc798cff",
+  "accepted_source_manifest": "local-source-manifest.json",
+  "source_binding_note": "Fixture, linker script, bridge and test-script hashes match the original acceptance manifest and the published files. The historical native implementation is identified by local-source-manifest.json; current native code contains later fixes.",
+  "reproduction_guide": "../integrations/ida/README.md#reproduce-the-owned-fixture-checks",
+  "not_covered": [
+    "Current native revision in IDA after the 2026-09-25 fixes",
+    "Arbitrary existing databases or third-party target binaries",
+    "Compiler-generated obfuscation corpus or equivalence to every baseline behavior",
+    "Decompiler reconstruction, formal equivalence, Linux or Windows host execution"
+  ],
+  "publication_note": "Compact extraction of the existing local check record and acceptance manifest; no IDA database, snapshots of existing user programs, or private baseline source is included."
+}
