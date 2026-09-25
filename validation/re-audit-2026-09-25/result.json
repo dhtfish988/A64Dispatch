@@ -1,0 +1,330 @@
+{
+  "date": "2026-09-25",
+  "baseline_commit": "5c44f0cc4638120ae9aec9a9794e4b814c214e11",
+  "source_binding": "The production and test file hashes below identify this uncommitted re-audit result; the baseline commit alone predates these changes.",
+  "source_sha256": {
+    "app/main.cpp": "4bcfda7def9772fb6ecd878dd252b93568387901d09cb6219c034736a2e001c4",
+    "include/a64dispatch/analysis.hpp": "4adae863e01e9d5dbd1d7ce95c42c93555a685802c3f0821760523f714e38005",
+    "include/a64dispatch/call_models.hpp": "4926b7be79263f747cb342c9a55de908095040a8a0bea152ebeaa4b564499718",
+    "include/a64dispatch/execution.hpp": "7b89fbcdfa4eae8f3da6ec9142b2c9898b960b2506ef4d739be88c5a243f73cf",
+    "include/a64dispatch/image.hpp": "5dd2e5bda1745a68e5ec1e726d83f03a672f33f7b99607f9b93f9e7c7c3dbc6d",
+    "include/a64dispatch/instruction.hpp": "06324b81bd97f5e6f00036f5f424cff223cf2c6c845ae50e944c70c8db7a9491",
+    "include/a64dispatch/process.hpp": "38c120b9b29e9f7d49d8b46b42c280afc0bc7b60183529fa44850331456bf835",
+    "include/a64dispatch/rewrite.hpp": "263f6a14fe43eb29c0997bb27ef45a91a09abab457b190711218f8b31f4e0a9b",
+    "include/a64dispatch/workflow.hpp": "77a074d7ede2a47b284ce35b3b506da43099b72a6bbb261121e849e9f98aa3cd",
+    "integrations/ida/a64dispatch_bridge.py": "aad3330ae0b637486be8f3bb8ed242b442ee9837e5c8c4ca741d80816a277c09",
+    "src/aarch64/constant_tracker.cpp": "a732f451aa056e64bd3f17966b8943b6360e3e628e90a4ca304995067d223468",
+    "src/aarch64/instruction_decoder.cpp": "f810324a1e56076edd98eee23349b8e9adc45667cf7d1ef201052fd1b8507f64",
+    "src/analysis/dispatch_survey.cpp": "b001f171c4288dd5eb959ba935dafd3b21eafa3d8a12aa64802a75a58e333738",
+    "src/analysis/state_expansion.cpp": "a0d9fa4e48c87bbbc8154172c497a0720b55d11a4e413a5688231492d601c217",
+    "src/analysis/table_graph.cpp": "f4b29389f329da9977648a518d3db9dbbedb0d4dfa6f4006ba97a06b881ab0af",
+    "src/analysis/target_resolver.cpp": "5057b0e9c910239282fd072c603fc4b9d1307035ffdbac25642aff7066cc333b",
+    "src/analysis/transition_classifier.cpp": "454dd52c091a4ac0b79db87fb152fcd895b774566a059a802ca7b4f4f09e4e1b",
+    "src/app/analysis_workflow.cpp": "c3258c5d8e290a8499fcf6cf985ab6b95890d3662b55a9ace7ec50ba96544ae8",
+    "src/app/batch_workflow.cpp": "0084a77b613bcf10ce48bce6c2fb3512fc37c74efa69f063b312a35b3145510f",
+    "src/app/regression_expectations.cpp": "e430c26a2d568c9746919a931831238d65143fe69cbe95d3f134f34bdeece92d",
+    "src/execution/call_models.cpp": "260140b5c7178c4cbbce57c7b3ff961508e0ef1ded51a75890ebf21aae48ba55",
+    "src/execution/command_oracle.cpp": "4541d73e9a8ac8ae2f20a9ae6bb666f651e979b671d1c6fdc06d3df25ac9911d",
+    "src/execution/execution_oracle.cpp": "6922227da991a344c73c40a3ac1b75bc27865eb74d47299a4331cdc7aa0755bd",
+    "src/execution/trace_source.cpp": "851b3467d8d39d2b26fc61f4563fabb3b6892f438a66be0e41f0d6e650d940f1",
+    "src/image/code_image.cpp": "bb728af66af3cca26c60a67c9936d3c25b9f7464527b09f611788205e4abf8ee",
+    "src/report/artifact_reader.cpp": "f7c6b6e2880404c604b42d326f8d47cdeb5250cbde551a9a08516f6523404483",
+    "src/report/artifacts.cpp": "fcd570c461a2caf915b5b7101ccdcdad65dee4679000dce6b62b922ad5b48cf2",
+    "src/rewrite/cleanup_proposals.cpp": "37c45f556354ca320366b568bfcd8d6cd79016e9f570593c46860c24c79781a2",
+    "src/rewrite/rewrite_planner.cpp": "03c48c9f8a32fabd7c4f7ae2facd7fba54eb84a9103bbc7bfe24846554d00c2c",
+    "src/rewrite/rewrite_transaction.cpp": "ee9afb7c0ff0b8afac44b56e94c1522549bf55b0579e798e06c4bfcd2d5a6dc6",
+    "src/system/process_runner.cpp": "beaca0aaf2ae8e8890cd5061c63c9d83a1b3f24ccd56c9a14c4079a31def9ac8",
+    "tests/integration/call_models.cpp": "2c63d736d6864502f8e89e566cc4b5bf8594b3bd5d7f7aa532a4fb85acb59cc0",
+    "tests/integration/workflow.cpp": "9d2798b52f6489b5432ece4f670c6758555380ef32a7e9921d39685e283f1474",
+    "tools/oracle_worker.cpp": "3f59651a83007ac522d5a391dbc860d67e0ead6e6fecf98120f0e4d3c5a50fc3"
+  },
+  "new_checks": 35,
+  "regression_before_fix": {
+    "memory_region_checks": {
+      "passed": 60,
+      "failed": 16,
+      "total": 76
+    },
+    "cli_workflow_checks": {
+      "passed": 91,
+      "failed": 12,
+      "total": 103
+    }
+  },
+  "findings": [
+    {
+      "id": "exact-memory-regions",
+      "confirmed": "Page-rounded Unicorn mappings allowed reads, writes, output extraction or execution outside the logical region permissions.",
+      "change": "Checks use the exact image and helper ranges for guest accesses, instruction fetches, models and output extraction.",
+      "new_checks": 22,
+      "failed_before_fix": 16
+    },
+    {
+      "id": "trace-preflight",
+      "confirmed": "Twelve malformed CLI or protected-output requests launched a configured external trace before reporting invalid input.",
+      "change": "Validate command and option combinations, parse current/artifact inputs and guard output aliases before constructing the workflow that may launch the trace.",
+      "new_checks": 13,
+      "failed_before_fix": 12
+    }
+  ],
+  "profiles": [
+    {
+      "profile": "debug",
+      "started_at_utc": "2026-09-25T11:05:01.313670+00:00",
+      "build": {
+        "command": [
+          "cmake",
+          "--build",
+          "--preset",
+          "debug",
+          "-j2"
+        ],
+        "exit_code": 0
+      },
+      "tests": {
+        "command": [
+          "ctest",
+          "--preset",
+          "debug",
+          "--verbose",
+          "-R",
+          "^(call-model-contract|workflow-contract|flat-image-contract|sample-pipeline|artifact-process-contract|tree-pipeline|state-pipeline)$"
+        ],
+        "exit_code": 0
+      },
+      "native_sha256": "b46a2de226358969a973e31aa65eaf7a0c22d61590781c3c99158a81c0daa2d4",
+      "ended_at_utc": "2026-09-25T11:05:15.241362+00:00",
+      "programs": 7,
+      "checks_passed": 472,
+      "checks_failed": 0,
+      "scope": "seven affected execution, CLI and IPC groups",
+      "groups": [
+        {
+          "ctest_index": 4,
+          "check_family": "flat-image",
+          "passed": 19,
+          "failed": 0
+        },
+        {
+          "ctest_index": 5,
+          "check_family": "pipeline",
+          "passed": 136,
+          "failed": 0
+        },
+        {
+          "ctest_index": 6,
+          "check_family": "boundary/IPC",
+          "passed": 52,
+          "failed": 0
+        },
+        {
+          "ctest_index": 7,
+          "check_family": "workflow",
+          "passed": 103,
+          "failed": 0
+        },
+        {
+          "ctest_index": 8,
+          "check_family": "call-model",
+          "passed": 76,
+          "failed": 0
+        },
+        {
+          "ctest_index": 9,
+          "check_family": "tree",
+          "passed": 63,
+          "failed": 0
+        },
+        {
+          "ctest_index": 10,
+          "check_family": "state-expansion",
+          "passed": 23,
+          "failed": 0
+        }
+      ],
+      "sanitized_log": "debug-ctest.txt",
+      "sanitized_log_sha256": "aefe52dc9aee1e76c6e82392b195752a5330ac9df2d9a87587a045130086a72d",
+      "raw_log_sha256": "5a96f18368c8cd109f1b2068b4cc58e7ddcda2bef4b88df610c350336604777f"
+    },
+    {
+      "profile": "release",
+      "started_at_utc": "2026-09-25T11:05:01.315397+00:00",
+      "build": {
+        "command": [
+          "cmake",
+          "--build",
+          "--preset",
+          "release",
+          "-j2"
+        ],
+        "exit_code": 0
+      },
+      "tests": {
+        "command": [
+          "ctest",
+          "--preset",
+          "release",
+          "--verbose"
+        ],
+        "exit_code": 0
+      },
+      "native_sha256": "02da2b05984ff45f5974405ac21117d1c0e2e19cfdd8fff2c84ae1bff419be68",
+      "ended_at_utc": "2026-09-25T11:05:16.211191+00:00",
+      "programs": 10,
+      "checks_passed": 742,
+      "checks_failed": 0,
+      "scope": "full native suite",
+      "groups": [
+        {
+          "ctest_index": 1,
+          "check_family": "foundation",
+          "passed": 239,
+          "failed": 0
+        },
+        {
+          "ctest_index": 2,
+          "check_family": "cleanup",
+          "passed": 17,
+          "failed": 0
+        },
+        {
+          "ctest_index": 3,
+          "check_family": "table-graph",
+          "passed": 14,
+          "failed": 0
+        },
+        {
+          "ctest_index": 4,
+          "check_family": "flat-image",
+          "passed": 19,
+          "failed": 0
+        },
+        {
+          "ctest_index": 5,
+          "check_family": "pipeline",
+          "passed": 136,
+          "failed": 0
+        },
+        {
+          "ctest_index": 6,
+          "check_family": "boundary/IPC",
+          "passed": 52,
+          "failed": 0
+        },
+        {
+          "ctest_index": 7,
+          "check_family": "workflow",
+          "passed": 103,
+          "failed": 0
+        },
+        {
+          "ctest_index": 8,
+          "check_family": "call-model",
+          "passed": 76,
+          "failed": 0
+        },
+        {
+          "ctest_index": 9,
+          "check_family": "tree",
+          "passed": 63,
+          "failed": 0
+        },
+        {
+          "ctest_index": 10,
+          "check_family": "state-expansion",
+          "passed": 23,
+          "failed": 0
+        }
+      ],
+      "sanitized_log": "release-ctest.txt",
+      "sanitized_log_sha256": "b10c7e5a537731d97642ff0c4a940661a393543b969c10c0ddbe98e8ad8abb34",
+      "raw_log_sha256": "d3128b50c07e625d8926f1248b40183811bdaf2b4966d256f7979c29fedadd29"
+    },
+    {
+      "profile": "sanitize",
+      "started_at_utc": "2026-09-25T11:05:01.317298+00:00",
+      "build": {
+        "command": [
+          "cmake",
+          "--build",
+          "--preset",
+          "sanitize",
+          "-j2"
+        ],
+        "exit_code": 0
+      },
+      "tests": {
+        "command": [
+          "ctest",
+          "--preset",
+          "sanitize",
+          "--verbose",
+          "-R",
+          "^(call-model-contract|workflow-contract|flat-image-contract|sample-pipeline|artifact-process-contract|tree-pipeline|state-pipeline)$"
+        ],
+        "exit_code": 0
+      },
+      "native_sha256": "ab63a5a49075161862a033204bd908f84aaaa990f4c63a4df5b1ae680d7bcd33",
+      "ended_at_utc": "2026-09-25T11:05:30.785452+00:00",
+      "programs": 7,
+      "checks_passed": 472,
+      "checks_failed": 0,
+      "scope": "seven affected execution, CLI and IPC groups",
+      "groups": [
+        {
+          "ctest_index": 4,
+          "check_family": "flat-image",
+          "passed": 19,
+          "failed": 0
+        },
+        {
+          "ctest_index": 5,
+          "check_family": "pipeline",
+          "passed": 136,
+          "failed": 0
+        },
+        {
+          "ctest_index": 6,
+          "check_family": "boundary/IPC",
+          "passed": 52,
+          "failed": 0
+        },
+        {
+          "ctest_index": 7,
+          "check_family": "workflow",
+          "passed": 103,
+          "failed": 0
+        },
+        {
+          "ctest_index": 8,
+          "check_family": "call-model",
+          "passed": 76,
+          "failed": 0
+        },
+        {
+          "ctest_index": 9,
+          "check_family": "tree",
+          "passed": 63,
+          "failed": 0
+        },
+        {
+          "ctest_index": 10,
+          "check_family": "state-expansion",
+          "passed": 23,
+          "failed": 0
+        }
+      ],
+      "sanitized_log": "sanitize-ctest.txt",
+      "sanitized_log_sha256": "c2e8af6def4abfa960a988fb32d5fcb5f2dfec65e0f1267f9a47d763b6a5a707",
+      "raw_log_sha256": "02db313f660e0943c14abf75b45d084557f1ff281509ab221a5e5deed5f0d840"
+    }
+  ],
+  "ida_record": "../ida-re-audit-2026-09-25.json",
+  "limits": [
+    "Debug and ASan/UBSan reran the seven affected groups, not the complete ten-program suite.",
+    "The Release suite uses self-authored fixtures and finite known vectors; it does not prove all-input equivalence.",
+    "IDA checks are a separate Debug-only run on one new disposable fixture database.",
+    "No new fuzz run or Linux/Windows execution was performed.",
+    "External executables run with caller privileges and are not sandboxed."
+  ]
+}

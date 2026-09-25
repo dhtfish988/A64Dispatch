@@ -45,12 +45,36 @@ unsigned register_number(const std::string &name) {
 Address numeric(const Json &object, const std::string &key, Address fallback) {
   return object.contains(key) ? parse_address(object[key]) : fallback;
 }
+struct MemoryMapping {
+  Address end;
+  unsigned permissions;
+};
+using MemoryMappings = std::map<Address, MemoryMapping>;
+// Unicorn protection is page-granular. These exact ranges remain authoritative
+// when multiple regions share a page or a rounded page contains unmapped bytes.
+void require_access(const MemoryMappings &mappings, Address pointer,
+                    std::size_t length, unsigned permission) {
+  if (length > std::numeric_limits<Address>::max() - pointer)
+    throw AnalysisError("execution memory access range overflow");
+  const auto end = pointer + length;
+  while (pointer < end) {
+    auto mapping = mappings.upper_bound(pointer);
+    if (mapping == mappings.begin())
+      throw AnalysisError("execution memory access is outside mapped regions");
+    --mapping;
+    if (pointer >= mapping->second.end)
+      throw AnalysisError("execution memory access is outside mapped regions");
+    if (!(mapping->second.permissions & permission))
+      throw AnalysisError("execution memory access violates region permissions");
+    pointer = std::min(end, mapping->second.end);
+  }
+}
 class NativeCallContext final : public CallContext {
 public:
   NativeCallContext(uc_engine *engine, Address heap, Address size,
-                    const std::map<Address, unsigned> &permissions)
+                    const MemoryMappings &mappings)
       : engine_(engine), next_(heap), end_(heap + size),
-        permissions_(permissions) {}
+        mappings_(mappings) {}
   std::uint64_t argument(unsigned index) const override {
     if (index > 7)
       throw AnalysisError("modeled call argument index exceeds X0..X7");
@@ -104,23 +128,12 @@ private:
     if (length > 1024 * 1024 ||
         length > std::numeric_limits<Address>::max() - pointer)
       throw AnalysisError("modeled memory access exceeds its bounds");
-    if (length == 0)
-      return;
-    auto page = pointer & ~Address{4095};
-    const auto last = (pointer + length - 1) & ~Address{4095};
-    for (;;) {
-      const auto found = permissions_.find(page);
-      if (found == permissions_.end() || !(found->second & permission))
-        throw AnalysisError("modeled memory access violates image permissions");
-      if (page == last)
-        break;
-      page += 4096;
-    }
+    require_access(mappings_, pointer, length, permission);
   }
   uc_engine *engine_;
   Address next_, end_;
   std::map<Address, std::size_t> allocations_;
-  const std::map<Address, unsigned> &permissions_;
+  const MemoryMappings &mappings_;
 };
 struct RunContext {
   const CodeImage *image = nullptr;
@@ -131,11 +144,31 @@ struct RunContext {
   NativeCallContext *calls = nullptr;
   const std::map<Address, const CallModel *> *imports = nullptr;
   std::optional<Address> preceding_transfer;
+  const MemoryMappings *mappings = nullptr;
 };
-void observe(uc_engine *engine, std::uint64_t address, std::uint32_t,
+void observe_memory(uc_engine *engine, uc_mem_type type, std::uint64_t address,
+                    int size, std::int64_t, void *opaque) noexcept {
+  auto &context = *static_cast<RunContext *>(opaque);
+  try {
+    if (size <= 0)
+      throw AnalysisError("invalid execution memory access size");
+    require_access(*context.mappings, address, static_cast<std::size_t>(size),
+                   type == UC_MEM_WRITE ? UC_PROT_WRITE : UC_PROT_READ);
+  } catch (const std::exception &error) {
+    if (context.error.empty())
+      context.error = error.what();
+    uc_emu_stop(engine);
+  } catch (...) {
+    if (context.error.empty())
+      context.error = "unexpected execution memory observer failure";
+    uc_emu_stop(engine);
+  }
+}
+void observe(uc_engine *engine, std::uint64_t address, std::uint32_t size,
              void *opaque) noexcept {
   auto &context = *static_cast<RunContext *>(opaque);
   try {
+    require_access(*context.mappings, address, size, UC_PROT_EXEC);
     ++context.result.instructions;
     if (context.preceding_transfer) {
       context.result.control_edges[*context.preceding_transfer].insert(address);
@@ -240,6 +273,7 @@ ExecutionOracle::run(const CodeImage &image, Address entry,
       canary_offset > tls_size - 8)
     throw AnalysisError("stack or TLS setup lies outside its helper mapping");
   std::map<Address, unsigned> pages;
+  MemoryMappings mappings;
   auto claim = [&](Address begin, Address length, unsigned protection,
                    bool unique) {
     if (length == 0 ||
@@ -247,6 +281,7 @@ ExecutionOracle::run(const CodeImage &image, Address entry,
       throw AnalysisError("execution memory range overflow");
     auto start = begin & ~Address{4095},
          end = (begin + length + 4095) & ~Address{4095};
+    mappings.emplace(begin, MemoryMapping{begin + length, protection});
     for (auto page = start; page < end; page += 4096) {
       if (unique && pages.contains(page))
         throw AnalysisError(
@@ -373,12 +408,16 @@ ExecutionOracle::run(const CodeImage &image, Address entry,
   }();
   checked(uc_mem_write(raw, tls + canary_offset, canary_bytes.data(), 8),
           "set canary");
-  NativeCallContext calls(raw, heap, heap_size, pages);
-  RunContext context{&image, &sites, {}, "", {}, &calls, &imports, {}};
+  NativeCallContext calls(raw, heap, heap_size, mappings);
+  RunContext context{&image, &sites, {}, "", {}, &calls, &imports, {}, &mappings};
   uc_hook hook = 0;
   checked(uc_hook_add(raw, &hook, UC_HOOK_CODE,
                       reinterpret_cast<void *>(observe), &context, 1, 0),
-          "install observer");
+            "install observer");
+  uc_hook memory_hook = 0;
+  checked(uc_hook_add(raw, &memory_hook, UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE,
+                      reinterpret_cast<void *>(observe_memory), &context, 1, 0),
+          "install memory observer");
   auto status = uc_emu_start(raw, entry, sentinel, timeout,
                              static_cast<std::size_t>(limit));
   if (!context.error.empty())
@@ -413,6 +452,7 @@ ExecutionOracle::run(const CodeImage &image, Address entry,
     for (std::uint64_t offset = 0; offset < size; ++offset) {
       if (pointer > std::numeric_limits<Address>::max() - offset)
         throw AnalysisError("output pointer overflow");
+      require_access(mappings, pointer + offset, 1, UC_PROT_READ);
       std::uint8_t byte = 0;
       checked(uc_mem_read(raw, pointer + offset, &byte, 1), "read output");
       if (output_mode == "string" && byte == 0) {

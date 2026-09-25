@@ -354,6 +354,124 @@ int main(int argc, char **argv) {
                   .run(image, named(image, "custom_call"), {})
                   .returned == 107,
           "explicit W-register initialization clears upper bits");
+    // Unicorn maps pages, but a CodeImage can give adjacent sub-page regions
+    // different permissions or leave holes. Page padding is not image memory.
+    auto mapped_image = [](std::initializer_list<std::uint32_t> words) {
+      CodeImage mapped;
+      ByteArray code;
+      for (auto word : words) {
+        auto encoded = instruction_bytes(word);
+        code.insert(code.end(), encoded.begin(), encoded.end());
+      }
+      mapped.entry = 0x100000;
+      mapped.regions = {
+          {0x100000, code, ".text", true, false, true, {}},
+          {0x100100, instruction_bytes(0xd65f03c0), ".noexec", true, false,
+           false, {}},
+          {0x101100, ByteArray(16, 'R'), ".rodata", true, false, false, {}},
+          {0x101200, ByteArray(16, 'A'), ".data", true, true, false, {}},
+          {0x101210, ByteArray(16, 'B'), ".adjacent", true, true, false, {}},
+          {0x101300, ByteArray(16, 'W'), ".writeonly", false, true, false, {}}};
+      mapped.functions = {{mapped.entry, mapped.entry + code.size(), "owned"}};
+      mapped.validate();
+      return mapped;
+    };
+    const auto modeled_image =
+        mapped_image({0xaa1e03f3, 0xd63f0060, 0xaa1303fe, 0xd65f03c0});
+    Json write_spec = {{"imports", {{"memset", "0x200000"}}},
+                       {"registers", {{"X0", "0x101200"}, {"X1", 65},
+                                      {"X2", 1}, {"X3", "0x200000"}}},
+                       {"output", {{"mode", "region"},
+                                   {"address", "0x101200"}, {"length", 1}}}};
+    for (auto target : {0x101100, 0x101180, 0x101220}) {
+      auto denied = write_spec;
+      denied["registers"]["X0"] = target;
+      rejects([&] { ExecutionOracle(denied).run(modeled_image, 0x100000, {}); },
+              "modeled write rejects sub-page read-only memory or padding " +
+                  hex_address(target));
+    }
+    check(ExecutionOracle(write_spec).run(modeled_image, 0x100000, {}).output ==
+              bytes("A"),
+          "modeled write retains valid sub-page data access");
+    auto spanning = write_spec;
+    spanning["registers"]["X0"] = "0x10121f";
+    spanning["registers"]["X2"] = 2;
+    rejects([&] { ExecutionOracle(spanning).run(modeled_image, 0x100000, {}); },
+            "modeled write cannot cross a region end into page padding");
+    auto read_spec = write_spec;
+    read_spec["imports"] = {{"memcpy", "0x200000"}};
+    for (auto source : {0x101180, 0x101300}) {
+      read_spec["registers"]["X1"] = source;
+      rejects([&] { ExecutionOracle(read_spec).run(modeled_image, 0x100000, {}); },
+              "modeled read rejects unmapped or unreadable sub-page region " +
+                  hex_address(source));
+    }
+    read_spec["registers"]["X1"] = "0x101100";
+    check(ExecutionOracle(read_spec).run(modeled_image, 0x100000, {}).output ==
+              bytes("R"),
+          "modeled read retains valid read-only source access");
+    const auto store_image = mapped_image({0x39000001, 0xd65f03c0});
+    auto store_spec = write_spec;
+    store_spec.erase("imports");
+    for (auto target : {0x101100, 0x101180}) {
+      store_spec["registers"]["X0"] = target;
+      rejects([&] { ExecutionOracle(store_spec).run(store_image, 0x100000, {}); },
+              "guest store rejects read-only or unmapped sub-page region " +
+                  hex_address(target));
+    }
+    store_spec["registers"]["X0"] = "0x101200";
+    check(ExecutionOracle(store_spec).run(store_image, 0x100000, {}).output ==
+              bytes("A"),
+          "guest store retains valid sub-page data access");
+    const auto load_image = mapped_image({0x39400000, 0xd65f03c0});
+    Json load_spec = {{"registers", {{"X0", "0x101100"}}}};
+    for (auto source : {0x101180, 0x101300}) {
+      load_spec["registers"]["X0"] = source;
+      rejects([&] { ExecutionOracle(load_spec).run(load_image, 0x100000, {}); },
+              "guest load rejects unmapped or unreadable sub-page region " +
+                  hex_address(source));
+    }
+    load_spec["registers"]["X0"] = "0x101100";
+    check(ExecutionOracle(load_spec).run(load_image, 0x100000, {}).returned ==
+              'R',
+          "guest load retains valid read-only sub-page access");
+    const auto crossing_image = mapped_image({0xf9400000, 0xd65f03c0});
+    load_spec["registers"]["X0"] = "0x10121f";
+    rejects([&] { ExecutionOracle(load_spec).run(crossing_image, 0x100000, {}); },
+            "guest load cannot cross a region end into page padding");
+    load_spec["registers"]["X0"] = "0x10120c";
+    check(ExecutionOracle(load_spec).run(crossing_image, 0x100000, {}).returned ==
+              0x4242424241414141ULL,
+          "guest access may span contiguous readable regions");
+    const auto return_image = mapped_image({0xd65f03c0});
+    Json output_spec = {{"output", {{"mode", "region"}, {"length", 1}}}};
+    for (auto source : {0x101180, 0x101300}) {
+      output_spec["output"]["address"] = source;
+      rejects([&] { ExecutionOracle(output_spec).run(return_image, 0x100000, {}); },
+              "output extraction rejects unmapped or unreadable sub-page region " +
+                  hex_address(source));
+    }
+    output_spec["output"]["address"] = "0x10121f";
+    output_spec["output"]["length"] = 2;
+    rejects([&] { ExecutionOracle(output_spec).run(return_image, 0x100000, {}); },
+            "output extraction cannot cross a region end into page padding");
+    output_spec["output"]["address"] = "0x10120f";
+    check(ExecutionOracle(output_spec).run(return_image, 0x100000, {}).output ==
+              bytes("AB"),
+          "output extraction may span contiguous readable regions");
+    const auto branch_image = mapped_image({0xd61f0000});
+    rejects(
+        [&] {
+          ExecutionOracle({{"registers", {{"X0", "0x100100"}}}})
+              .run(branch_image, 0x100000, {});
+        },
+        "guest branch cannot execute non-executable bytes sharing a code page");
+    auto external_denied = write_spec;
+    external_denied["backend"] = "command";
+    external_denied["command"] = Json::array({argv[2]});
+    external_denied["registers"]["X0"] = "0x101100";
+    rejects([&] { ExecutionOracle(external_denied).run(modeled_image, 0x100000, {}); },
+            "separate oracle worker enforces sub-page model permissions");
     std::cout << passed << " call-model checks passed; " << failed
               << " failed\n";
     return failed ? 1 : 0;

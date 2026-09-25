@@ -1,0 +1,12 @@
+FAIL: CLI rejects unknown command before launching a configured trace
+FAIL: CLI rejects unsupported current before launching a configured trace
+FAIL: CLI rejects read-only apply before launching a configured trace
+FAIL: CLI rejects missing restore receipt before launching a configured trace
+FAIL: CLI rejects restore apply before launching a configured trace
+FAIL: CLI rejects source output before launching a configured trace
+FAIL: CLI rejects config output before launching a configured trace
+FAIL: CLI rejects trace output before launching a configured trace
+FAIL: CLI rejects artifact output before launching a configured trace
+FAIL: CLI rejects current output before launching a configured trace
+FAIL: CLI rejects malformed artifact before launching a configured trace
+FAIL: CLI rejects malformed current before launching a configured trace

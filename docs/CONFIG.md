@@ -35,6 +35,8 @@ JSON duplicate keys, excessive nesting, malformed numeric fields and bounded YAM
 alias cycles are rejected. Result replacement uses a same-directory temporary file,
 flush and rename. The CLI checks output paths and filesystem aliases against every
 input/config/trace/current/artifact path.
+Unsupported commands and flag combinations, malformed current/artifact documents,
+and protected output paths are rejected before launching a configured trace command.
 
 ## Flat files
 
@@ -125,7 +127,12 @@ canary failure. Optional `shims` restricts the enabled names. Unknown enabled
 models are errors. Library clients can supply a CallRegistry with additional
 CallContext callbacks. Command workers have their own registry.
 
-Models enforce mapped memory permissions and bounded operations; realloc tracks
+Guest instruction fetches, guest data accesses, modeled memory operations and
+output extraction enforce the actual region boundaries and permissions. Two
+regions sharing a Unicorn page do not inherit each other's permissions, and page
+padding is not mapped image memory. Accesses may span contiguous regions only
+when every part permits the requested access.
+Models also enforce bounded operations; realloc tracks
 live allocation sizes. Mutex models assume single-thread execution. Formatting
 models implement bounded AArch64 PCS integer/string/pointer conversions, width,
 precision and integer length modifiers. Floating point, dynamic `*`, wide strings,

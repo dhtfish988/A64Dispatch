@@ -47,12 +47,19 @@ pre-existing graph references and injected byte/reference failures. The recorded
 contains the check list and source hashes. This covers the stated fixture and host
 version, not arbitrary databases or the later native fixes.
 
-The unchanged script was run again on 2026-09-25 with the current Debug native
+The unchanged script was run again earlier on 2026-09-25 with the Debug native
 binary in a separate autonomous IDA 9.4 process. All 26 checks passed on a new
-disposable database for the same owned fixture. The [current run record](../../validation/ida-2026-09-25.json)
+disposable database for the same owned fixture. The [earlier run record](../../validation/ida-2026-09-25.json)
 binds the result to the source, Debug executable, tool and fixture hashes and
 records cleanup. Existing user sessions were not accessed. This does not claim a
 Release host run or coverage of other binaries.
+
+After the later memory-region and CLI preflight fixes, a new independent IDA 9.4
+process passed all **26 checks** with the current Debug executable and another
+fresh disposable database of the same fixture. The
+[latest run record](../../validation/ida-re-audit-2026-09-25.json) binds those
+results to the new source and executable hashes. It has the same Debug-only and
+single-fixture limits; it did not use any existing user database.
 
 ## Reproduce the owned fixture checks
 
@@ -78,5 +85,5 @@ The script modifies and restores only this disposable fixture database, writes
 that IDA instance with its test status. Read the result's `passed`, `failure` and
 individual `checks` fields. Running a newer checkout produces new evidence; the
 published results apply to their recorded source and executable hashes. The
-2026-09-23 result remains historical, and the 2026-09-25 result covers the stated
-Debug binary only.
+2026-09-23 result remains historical, and each 2026-09-25 result covers only its
+recorded Debug binary.

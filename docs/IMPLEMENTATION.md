@@ -8,12 +8,13 @@ transport. Standard AArch64/IDA interfaces and inherited license notices retain
 their original names; project-owned APIs and implementation structure are new.
 
 The functional migration inventory is MIGRATION.md. CHECKPOINT.md separates the
-2026-09-25 native review (Debug/Release/ASan+UBSan each 707, installed consumer and
-CLI sample roundtrip) from the 2026-09-23 acceptance (693 native checks per profile,
-26 IDA host checks and a short 860-execution fuzz run). A separate 2026-09-25 IDA 9.4
-run passed all 26 host checks with the current Debug native binary on one new
-disposable fixture database. It does not establish Release host behavior or
-arbitrary-target coverage. Public evidence links are in ../validation/README.md.
+latest 2026-09-25 re-audit (742 Release checks and 472 checks in seven affected
+groups in each of Debug and ASan/UBSan) from the earlier 707-check review and
+the 2026-09-23 acceptance (693 native checks per profile and a short 860-execution
+fuzz run). After the latest fixes, a separate IDA 9.4 run passed all 26 host checks
+with the current Debug native binary on one new disposable fixture database.
+It does not establish Release host behavior or arbitrary-target coverage.
+Public evidence links are in ../validation/README.md.
 
 Unknown effects, table instability, shared/interior entries, uncovered edited
 instructions and uncovered candidate branch outcomes prevent byte commitment.

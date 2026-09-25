@@ -1,6 +1,14 @@
 # Local validation record
 
-The 2026-09-25 review passed **707 checks** in each fresh Debug, Release and
+The latest 2026-09-25 re-audit passed **742 checks in the complete Release suite**
+and **472 checks in seven affected groups** in each of Debug and ASan/UBSan.
+It fixes logical memory-region enforcement and CLI validation before external
+trace execution. Of 35 new checks, 28 failed against the preceding implementation.
+The [result and sanitized transcripts](re-audit-2026-09-25/result.json) bind this
+run to source and executable hashes. Debug and sanitizer did not rerun the other
+three groups; no new fuzz run was performed.
+
+The earlier 2026-09-25 review passed **707 checks** in each fresh Debug, Release and
 ASan/UBSan build on macOS arm64. Fourteen checks cover candidate verification
 and mandatory direct-branch target metadata; nine failed against the pre-fix
 source. A fresh installed CLI and independent consumer also passed.
@@ -37,7 +45,7 @@ fixture/test/bridge hashes and the limits of that run. The
 [host reproduction guide](../integrations/ida/README.md#reproduce-the-owned-fixture-checks)
 uses a fresh disposable database. Publishing this existing record is not a new IDA run.
 
-A separate [current Debug IDA result](ida-2026-09-25.json) records 26/26 checks on
+A separate [earlier Debug IDA result](ida-2026-09-25.json) records 26/26 checks on
 2026-09-25 using the unchanged test script, the native source at `0ea2ca9`, and a
 new disposable database containing only the owned assembly fixture. It records
 the run times and source, Debug executable, IDA tool and fixture hashes. Actual
@@ -45,8 +53,16 @@ byte edits, graph changes and restoration passed; the temporary database was
 removed and no existing user session was accessed. This was not a Release host
 test or an expansion to other target binaries.
 
+After the latest re-audit fixes, the unchanged script passed a new **26/26 Debug
+IDA check** on another fresh disposable database. The
+[new host record](ida-re-audit-2026-09-25.json) contains the current source hashes,
+Debug executable hash and run times. The same one owned fixture was used; existing
+user sessions were not accessed. Earlier host records retain their original scope.
+
 ## Current review evidence
 
+- [Latest execution/CLI re-audit](re-audit-2026-09-25/result.json) and
+  [subsequent Debug IDA result](ida-re-audit-2026-09-25.json).
 - [Machine-readable review result](current-review.json) and [sanitized test transcripts](review-2026-09-25/).
 - [CMake 3.24 preset compatibility result](current-review-build.json).
 - [Hosted Release run 36086125433](https://github.com/dhtfish988/A64Dispatch/actions/runs/36086125433)

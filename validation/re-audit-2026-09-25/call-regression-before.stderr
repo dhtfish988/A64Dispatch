@@ -1,0 +1,16 @@
+FAIL: modeled write rejects sub-page read-only memory or padding 0x101100
+FAIL: modeled write rejects sub-page read-only memory or padding 0x101180
+FAIL: modeled write rejects sub-page read-only memory or padding 0x101220
+FAIL: modeled write cannot cross a region end into page padding
+FAIL: modeled read rejects unmapped or unreadable sub-page region 0x101180
+FAIL: modeled read rejects unmapped or unreadable sub-page region 0x101300
+FAIL: guest store rejects read-only or unmapped sub-page region 0x101100
+FAIL: guest store rejects read-only or unmapped sub-page region 0x101180
+FAIL: guest load rejects unmapped or unreadable sub-page region 0x101180
+FAIL: guest load rejects unmapped or unreadable sub-page region 0x101300
+FAIL: guest load cannot cross a region end into page padding
+FAIL: output extraction rejects unmapped or unreadable sub-page region 0x101180
+FAIL: output extraction rejects unmapped or unreadable sub-page region 0x101300
+FAIL: output extraction cannot cross a region end into page padding
+FAIL: guest branch cannot execute non-executable bytes sharing a code page
+FAIL: separate oracle worker enforces sub-page model permissions

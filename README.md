@@ -42,12 +42,16 @@ using a cross-target LLVM compiler and ELF linker. The historical
 [IDA 9.4 check record](validation/ida-2026-09-23.json) contains 26 successful checks
 on one fresh fixture database on 2026-09-23, including byte/graph application,
 restoration and injected host failures. A separate
-[2026-09-25 IDA run](validation/ida-2026-09-25.json) passed the same 26 checks with
-the current Debug native binary and a new disposable database for that fixture.
-It did not test the Release binary in IDA or arbitrary existing databases. The
-2026-09-25 native review passes 707 checks in each of Debug, Release and ASan/UBSan.
-It closes supplied-candidate verification and omitted branch-target validation
-gaps; see the [review record](docs/CHECKPOINT.md). An independent installed C++ consumer has
+[earlier 2026-09-25 IDA run](validation/ida-2026-09-25.json) passed the same 26 checks
+with the native source at `0ea2ca9`. After the latest execution-memory and CLI
+preflight fixes, a [new Debug IDA run](validation/ida-re-audit-2026-09-25.json)
+again passed all 26 checks in a new disposable database for that fixture.
+Neither run tested the Release binary in IDA or arbitrary existing databases.
+The [latest re-audit](validation/re-audit-2026-09-25/result.json) passed the full
+**742-check Release suite** and **472 checks in seven affected groups** in each of
+Debug and ASan/UBSan. The earlier 707-check review closed supplied-candidate
+verification and omitted branch-target validation gaps; see the
+[review record](docs/CHECKPOINT.md). An independent installed C++ consumer has
 executed the library and exact graph restoration. Linux/Windows execution is OPEN.
 The [hosted Release run for commit `0ea2ca9`](https://github.com/dhtfish988/A64Dispatch/actions/runs/36086125433)
 also passed all 707 checks and the installed consumer; see its

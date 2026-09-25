@@ -35,6 +35,14 @@ std::string scalar(std::uint64_t n) {
 }
 } // namespace
 int main(int argc, char **argv) {
+  if (argc == 3 && std::string(argv[1]) == "--trace-marker") {
+    const ByteArray input(std::istreambuf_iterator<char>(std::cin), {});
+    const auto request = parse_document(input);
+    write_document(argv[2], {{"executed", true}});
+    std::cout << Json({{"source_sha256", request.at("source_sha256")},
+                       {"observations", {{"sites", Json::object()}}}}).dump();
+    return 0;
+  }
   if (argc != 3)
     return 2;
   try {
@@ -283,6 +291,46 @@ int main(int argc, char **argv) {
                   "--config", (temp.path() / "job.json").string()})
                   .exit_code == 2,
           "CLI rejects duplicate options");
+    const auto marker = temp.path() / "trace-marker.json";
+    const auto traced_config_path = temp.path() / "traced-job.json";
+    const auto inline_trace = temp.path() / "empty-trace.json";
+    const auto malformed = temp.path() / "malformed.json";
+    write_document(inline_trace, {{"sites", Json::object()}});
+    {
+      std::ofstream bad_document(malformed);
+      bad_document << "{not JSON";
+    }
+    auto traced_config = cli_config;
+    traced_config["trace_files"] = Json::array({inline_trace.string()});
+    traced_config["trace_command"] = {
+        {"argv", Json::array({argv[0], "--trace-marker", marker.string()})}};
+    write_document(traced_config_path, traced_config);
+    const std::vector<std::pair<std::string, std::vector<std::string>>> invalid_requests{
+        {"unknown command", {"not-a-command"}},
+        {"unsupported current", {"plan", "--current", (temp.path() / "source.json").string()}},
+        {"read-only apply", {"plan", "--apply"}},
+        {"missing restore receipt", {"restore"}},
+        {"restore apply", {"restore", "--apply", "--from", applied.string()}},
+        {"source output", {"plan", "--output", (temp.path() / "source.json").string()}},
+        {"config output", {"plan", "--output", traced_config_path.string()}},
+        {"trace output", {"plan", "--output", inline_trace.string()}},
+        {"artifact output", {"plan", "--from", applied.string(), "--output", applied.string()}},
+        {"current output", {"verify", "--current", applied.string(), "--output", applied.string()}},
+        {"malformed artifact", {"plan", "--from", malformed.string()}},
+        {"malformed current", {"verify", "--current", malformed.string()}}};
+    for (const auto &[name, supplied] : invalid_requests) {
+      std::filesystem::remove(marker);
+      auto request = supplied;
+      request.insert(request.end(), {"--config", traced_config_path.string()});
+      const auto result = invoke(request);
+      check(result.exit_code == 2 && !std::filesystem::exists(marker),
+            "CLI rejects " + name + " before launching a configured trace");
+    }
+    std::filesystem::remove(marker);
+    check(invoke({"plan", "--config", traced_config_path.string(),
+                  "--output", output.string()}).exit_code == 0 &&
+              std::filesystem::exists(marker),
+          "valid CLI request still launches its configured trace");
     const auto before = read_file(output);
     write_document(temp.path() / "bad.json", {{"image", "source.json"},
                                               {"mode", "linear"},

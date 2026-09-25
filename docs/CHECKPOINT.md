@@ -5,12 +5,39 @@ Evidence filenames and workspace-relative paths below refer to local validation 
 A64Dispatch 1.0.0 has completed local macOS implementation and delivery
 verification. This record does not claim arbitrary-input equivalence.
 
-## Subsequent IDA check — 2026-09-25
+## Execution and CLI re-audit — 2026-09-25
 
-After the native review below, the current Debug binary passed 26/26 checks in
+- Reproduced reads, writes, output extraction and instruction execution outside
+  the logical region permissions when Unicorn merged or rounded a memory page.
+  Guest accesses, call models and output extraction now check the exact image
+  and helper ranges. Legal accesses across contiguous permitted regions remain
+  supported.
+- Reproduced invalid commands, flag combinations, malformed current/artifact
+  documents and protected output paths launching a configured trace before
+  rejection. These CLI checks now precede workflow construction and its optional
+  external trace execution.
+- Added 35 checks: 22 memory-boundary checks and 13 CLI trace-preflight checks.
+  Against the preceding binaries, 16 memory cases and 12 CLI cases failed.
+  Final-source Release passed all **742 checks in ten programs**. Debug and
+  ASan/UBSan each passed **472 checks in the seven affected groups**: flat mapping
+  19, sample pipeline 136, artifacts/process 52, workflow 103, call models 76,
+  comparison tree 63 and state expansion 23. The other three groups were not
+  rerun in those two profiles. No new fuzz run was performed.
+- The unchanged IDA test script passed **26/26** after these fixes with the new
+  Debug executable in an independent IDA 9.4 process and a fresh owned-fixture
+  database. The database was removed; no existing user session was accessed.
+  This is a Debug-only, single-fixture host result.
+
+The [re-audit record](../validation/re-audit-2026-09-25/result.json) and
+[new IDA record](../validation/ida-re-audit-2026-09-25.json) contain source and
+binary hashes, check counts and evidence scope.
+
+## Earlier subsequent IDA check — 2026-09-25
+
+After the native review below, its Debug binary passed 26/26 checks in
 an independent IDA 9.4 process on a fresh disposable database of the owned
 fixture. Actual byte application, graph changes, restoration and failure rollback
-passed. The [new host record](../validation/ida-2026-09-25.json) binds the run to
+passed. The [earlier host record](../validation/ida-2026-09-25.json) binds the run to
 source and executable hashes. This does not establish a Release host result or
 coverage of arbitrary databases; historical results below keep their original scope.
 

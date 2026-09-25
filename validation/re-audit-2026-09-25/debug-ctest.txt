@@ -1,0 +1,77 @@
+UpdateCTestConfiguration  from :<source>/DartConfiguration.tcl
+Test project <source>/build/debug
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 4
+    Start  4: flat-image-contract
+
+4: Test command: <source>/build/debug/dispatch-flat-tests "<source>/build/debug/a64-dispatch"
+4: Working Directory: <source>/build/debug
+4: Test timeout computed to be: 10000000
+4: 19 flat-image checks passed; 0 failed
+1/7 Test  #4: flat-image-contract ..............   Passed    2.06 sec
+test 5
+    Start  5: sample-pipeline
+
+5: Test command: <source>/build/debug/dispatch-pipeline-tests "<source>/build/debug/dispatch_cases.elf"
+5: Working Directory: <source>/build/debug
+5: Test timeout computed to be: 10000000
+5: 136 pipeline checks passed; 0 failed
+2/7 Test  #5: sample-pipeline ..................   Passed    1.98 sec
+test 6
+    Start  6: artifact-process-contract
+
+6: Test command: <source>/build/debug/dispatch-contract-tests "<source>/build/debug/dispatch_cases.elf" "<source>/build/debug/a64-oracle-worker"
+6: Working Directory: <source>/build/debug
+6: Test timeout computed to be: 10000000
+6: 52 boundary/IPC checks passed; 0 failed
+3/7 Test  #6: artifact-process-contract ........   Passed    2.43 sec
+test 7
+    Start  7: workflow-contract
+
+7: Test command: <source>/build/debug/dispatch-workflow-tests "<source>/build/debug/dispatch_cases.elf" "<source>/build/debug/a64-dispatch"
+7: Working Directory: <source>/build/debug
+7: Test timeout computed to be: 10000000
+7: 103 workflow checks passed; 0 failed
+4/7 Test  #7: workflow-contract ................   Passed    3.08 sec
+test 8
+    Start  8: call-model-contract
+
+8: Test command: <source>/build/debug/dispatch-call-tests "<source>/build/debug/call_cases.elf" "<source>/build/debug/a64-oracle-worker"
+8: Working Directory: <source>/build/debug
+8: Test timeout computed to be: 10000000
+8: 76 call-model checks passed; 0 failed
+5/7 Test  #8: call-model-contract ..............   Passed    0.61 sec
+test 9
+    Start  9: tree-pipeline
+
+9: Test command: <source>/build/debug/dispatch-tree-tests "<source>/build/debug/tree_cases.elf"
+9: Working Directory: <source>/build/debug
+9: Test timeout computed to be: 10000000
+9: 63 tree checks passed; 0 failed
+6/7 Test  #9: tree-pipeline ....................   Passed    1.16 sec
+test 10
+    Start 10: state-pipeline
+
+10: Test command: <source>/build/debug/dispatch-state-tests "<source>/build/debug/state_cases.elf"
+10: Working Directory: <source>/build/debug
+10: Test timeout computed to be: 10000000
+10: 23 state-expansion checks passed; 0 failed
+7/7 Test #10: state-pipeline ...................   Passed    0.59 sec
+
+The following tests passed:
+	flat-image-contract
+	sample-pipeline
+	artifact-process-contract
+	workflow-contract
+	call-model-contract
+	tree-pipeline
+	state-pipeline
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =  11.90 sec

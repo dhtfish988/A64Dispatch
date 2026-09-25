@@ -70,6 +70,19 @@ Arguments arguments(int argc, char **argv) {
     throw AnalysisError("--apply and --dry-run are mutually exclusive");
   if (!result.values.contains("--config"))
     throw AnalysisError("--config is required");
+  const std::set<std::string> commands{
+      "survey", "classify", "resolve", "plan", "preview", "run", "graph",
+      "cleanup", "trace", "verify", "regress", "restore", "discover", "batch"};
+  if (!commands.contains(result.command))
+    throw AnalysisError("unknown workflow command: " + result.command);
+  if (result.values.contains("--current") && result.command != "verify" &&
+      result.command != "restore")
+    throw AnalysisError("--current is only valid for verify and restore");
+  if (result.command == "restore" && !result.values.contains("--from"))
+    throw AnalysisError("restore requires --from an applied receipt");
+  if (result.apply && result.command != "run" && result.command != "graph" &&
+      result.command != "cleanup" && result.command != "batch")
+    throw AnalysisError("--apply is only valid for run, graph, cleanup and batch");
   return result;
 }
 std::filesystem::path resolved(const std::filesystem::path &path,
@@ -207,29 +220,25 @@ int run(int argc, char **argv) {
     if (program.find('/') != std::string::npos)
       argv_list[0] = resolved(program, config_path.parent_path()).string();
   }
-  AnalysisWorkflow workflow(std::move(input_image), config);
   std::optional<Json> prior;
   if (options.values.contains("--from")) {
     inputs.push_back(options.values.at("--from"));
     prior = read_document(options.values.at("--from"));
-    if (options.command != "restore")
-      workflow.check_artifact(*prior);
   }
   std::optional<CodeImage> current;
   if (options.values.contains("--current")) {
-    if (options.command != "verify" && options.command != "restore")
-      throw AnalysisError("--current is only valid for verify and restore");
     inputs.push_back(options.values.at("--current"));
     current = load_current(options.values.at("--current"));
   }
   if (options.values.contains("--output"))
     guard_output(options.values.at("--output"), inputs);
+  // Construction may launch a user-configured trace program. Reject malformed
+  // requests and protected output paths before allowing that external work.
+  AnalysisWorkflow workflow(std::move(input_image), config);
+  if (prior && options.command != "restore")
+    workflow.check_artifact(*prior);
   Json output;
   if (options.command == "restore") {
-    if (!prior)
-      throw AnalysisError("restore requires --from an applied receipt");
-    if (options.apply)
-      throw AnalysisError("restore emits a restored snapshot without --apply");
     output = workflow.restore(*prior, current ? &*current : nullptr);
     if (options.dry) {
       output["restored"] = false;
