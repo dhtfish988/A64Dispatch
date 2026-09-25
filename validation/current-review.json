@@ -1,0 +1,112 @@
+{
+  "base_commit": "535243b5e5552fa1493ec107bc4ca8c93eb84cea",
+  "findings": [
+    {
+      "id": "supplied-candidate-verification",
+      "confirmed_before": true,
+      "fixed": true,
+      "description": "verify --current accepted unplanned bytes/permissions/graph and bypassed edited-instruction and indirect-target coverage."
+    },
+    {
+      "id": "optional-branch-target",
+      "confirmed_before": true,
+      "fixed": true,
+      "description": "Removing target metadata admitted unmapped direct branch replacement during prepare."
+    }
+  ],
+  "regressions_before": {
+    "programs": 2,
+    "failures": 9,
+    "log": "regressions-before.txt"
+  },
+  "new_checks": 14,
+  "tests": [
+    {
+      "profile": "debug",
+      "programs": 10,
+      "checks": 707,
+      "failures": 0,
+      "log": "tests-debug.txt",
+      "log_sha256": "a140dd4a471eb386b387f49d1b4ecd8aa8b2910a200835188f88c6153d7eeb58"
+    },
+    {
+      "profile": "release",
+      "programs": 10,
+      "checks": 707,
+      "failures": 0,
+      "log": "tests-release.txt",
+      "log_sha256": "ff86aece13886a65d7d07b7d655b9b5863776db665c1610d42bdf9a00a2b85ae"
+    },
+    {
+      "profile": "sanitize",
+      "programs": 10,
+      "checks": 707,
+      "failures": 0,
+      "log": "tests-sanitize.txt",
+      "log_sha256": "1905786fbdbe7693826dcc6cfe60a6bfb4818fbf28b61c4047d11f12db837b91"
+    }
+  ],
+  "installed_cli": {
+    "passed": true,
+    "known_vectors": 28,
+    "commands": [
+      {
+        "command": "run",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": "verify",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": "regress",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": "restore",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "installed_consumer": "Independent installed consumer: 7 sites; graph transaction and exact restore passed",
+  "files": {
+    "src/app/analysis_workflow.cpp": "c3258c5d8e290a8499fcf6cf985ab6b95890d3662b55a9ace7ec50ba96544ae8",
+    "src/rewrite/rewrite_transaction.cpp": "ee9afb7c0ff0b8afac44b56e94c1522549bf55b0579e798e06c4bfcd2d5a6dc6",
+    "tests/integration/contracts.cpp": "fdf3ea2df05b30ffc87aed39c76d6ca9e23d2b0e3e011b06573684ff95c77ae5",
+    "tests/integration/workflow.cpp": "64fd2ccdd7f4a11fa572f1f1efa4aa5b68cc7ccf9cc64518fdceab33ac5c540f",
+    "docs/CONFIG.md": "3f088d43c552e4cda4d6d9c7c35fef2fb5fdda37163d3714e806a24078216275",
+    "docs/CHECKPOINT.md": "1ae8eb43154b55acbefd29e104283db7a75b3d37d2b1c696705bda0dd5253a07",
+    "README.md": "b1622a184a106bc1a883e8417d1326c9caaa81c09f1dc5c6fc80a53ee63bdab3"
+  },
+  "limits": [
+    "macOS arm64 only in this review",
+    "IDA and fuzz results are historical 2026-09-23 records, not rerun in this patch",
+    "Finite vectors do not establish all-input equivalence"
+  ],
+  "date": "2026-09-25",
+  "evidence_note": "Local verification on macOS arm64. Published test transcripts replace absolute workspace paths with placeholders. Original transcript hashes, where present, refer to the private local record.",
+  "published_test_logs": {
+    "debug": {
+      "path": "review-2026-09-25/tests-debug.txt",
+      "sha256": "fed6d252e6f07ad4666bbc17b70a7b93a4dcc705eccd799635416def1f7a91c2"
+    },
+    "release": {
+      "path": "review-2026-09-25/tests-release.txt",
+      "sha256": "ac09035a9d7a89ad5a21c3424cedd1887093c7ee04e44159a424f2da50d042f9"
+    },
+    "sanitize": {
+      "path": "review-2026-09-25/tests-sanitize.txt",
+      "sha256": "45ec3a5f50410b493ccc187c7dd29693de56f6ac441358e7b6ab6cd913d1e2a1"
+    }
+  },
+  "hosted_ci_url": "https://github.com/dhtfish988/A64Dispatch/actions/workflows/verify.yml",
+  "hosted_ci_note": "Check the Actions result for the exact Git commit; local results do not imply a hosted run passed."
+}

@@ -125,6 +125,70 @@ int main(int argc, char **argv) {
           "regression really restores and reanalyzes");
     check(workflow.execute("verify").at("passed").get<bool>(),
           "verification shares apply gate");
+    const auto byte_plan = plan_from_json(plan.at("plan"));
+    const auto byte_candidate = RewriteTransaction::prepare(image, byte_plan);
+    check(workflow.execute("verify", false, &byte_candidate).at("passed"),
+          "supplied byte-only candidate passes full verification");
+    const auto graph_candidate =
+        CodeImage::from_snapshot(committed.at("image"));
+    check(workflow.execute("verify", false, &graph_candidate).at("passed"),
+          "supplied applied candidate with owned graph passes verification");
+    auto unplanned = byte_candidate;
+    unplanned.replace(named(image, "flag_changed"),
+                      instruction_bytes(0xd503201f));
+    check(ExecutionOracle(config.at("execution"))
+                  .compare(image, unplanned)
+                  .at("passed") &&
+              RewriteTransaction::self_check(unplanned, byte_plan).at("passed"),
+          "unplanned unexecuted byte change evades output and per-edit checks");
+    check(
+        !workflow.execute("verify", false, &unplanned).at("passed").get<bool>(),
+        "verification rejects bytes changed outside the regenerated plan");
+    auto metadata_drift = byte_candidate;
+    metadata_drift.regions.front().writable =
+        !metadata_drift.regions.front().writable;
+    check(!workflow.execute("verify", false, &metadata_drift)
+               .at("passed")
+               .get<bool>(),
+          "verification rejects unplanned memory-permission changes");
+    auto foreign_graph = graph_candidate;
+    foreign_graph.references.push_back({image.entry, image.entry, true});
+    check(!workflow.execute("verify", false, &foreign_graph)
+               .at("passed")
+               .get<bool>(),
+          "verification rejects foreign graph metadata");
+    auto partial = config;
+    partial["analysis"]["emulate"] = false;
+    partial["execution"]["known_vectors"].erase(3);
+    AnalysisWorkflow partial_workflow(image, partial);
+    const auto partial_plan =
+        plan_from_json(partial_workflow.stage("plan").at("plan"));
+    const auto partial_candidate =
+        RewriteTransaction::prepare(image, partial_plan);
+    check(ExecutionOracle(partial.at("execution"))
+              .compare(image, partial_candidate)
+              .at("passed"),
+          "partial vectors still agree on their observed outputs");
+    rejects(
+        [&] { partial_workflow.execute("verify"); },
+        "implicit verification refuses incomplete dispatch target coverage");
+    check(!partial_workflow.execute("verify", false, &partial_candidate)
+               .at("passed")
+               .get<bool>(),
+          "supplied candidate cannot bypass dispatch target coverage");
+    auto missing_vector = config;
+    missing_vector["analysis"]["emulate"] = false;
+    missing_vector["execution"]["known_vectors"].erase(1);
+    missing_vector["execution"]["known_vectors"].erase(0);
+    AnalysisWorkflow missing_workflow(image, missing_vector);
+    const auto missing_plan =
+        plan_from_json(missing_workflow.stage("plan").at("plan"));
+    const auto missing_candidate =
+        RewriteTransaction::prepare(image, missing_plan);
+    check(!missing_workflow.execute("verify", false, &missing_candidate)
+               .at("passed")
+               .get<bool>(),
+          "supplied candidate cannot bypass edited-instruction coverage");
     auto trace = workflow.execute("trace");
     check(trace.at("executions").size() == vectors.size(),
           "trace drives every known vector");
@@ -240,6 +304,23 @@ int main(int argc, char **argv) {
          (temp.path() / "wrong.json").string(), "--output", output.string()});
     check(verify_result.exit_code == 1,
           "wrong candidate yields CLI verification failure");
+    write_document(temp.path() / "unplanned.json", unplanned.snapshot());
+    check(invoke({"verify", "--config", (temp.path() / "job.json").string(),
+                  "--current", (temp.path() / "unplanned.json").string(),
+                  "--output", output.string()})
+                  .exit_code == 1,
+          "CLI rejects unplanned bytes even when supplied vectors pass");
+    auto partial_cli = partial;
+    partial_cli["image"] = "source.json";
+    write_document(temp.path() / "partial.json", partial_cli);
+    write_document(temp.path() / "partial-candidate.json",
+                   partial_candidate.snapshot());
+    check(
+        invoke({"verify", "--config", (temp.path() / "partial.json").string(),
+                "--current", (temp.path() / "partial-candidate.json").string(),
+                "--output", output.string()})
+                .exit_code == 1,
+        "CLI supplied-candidate verification enforces target coverage");
     auto fractional = config;
     fractional["analysis"]["lookback"] = 1.5;
     rejects([&] { AnalysisWorkflow invalid(image, fractional); },

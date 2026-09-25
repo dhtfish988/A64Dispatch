@@ -34,8 +34,10 @@ ctest --preset debug --verbose
 The test build compiles the neutral AArch64 assembly in `samples/dispatch_cases.S`
 using a cross-target LLVM compiler and ELF linker. A separate IDA 9.4 database was
 created from this fixture for 26 successful host integration checks, including
-actual byte/graph application, restoration and injected host failures. Native Debug, Release
-and ASan/UBSan each pass 693 checks. An independent installed C++ consumer has
+actual byte/graph application, restoration and injected host failures. The
+2026-09-25 native review passes 707 checks in each of Debug, Release and ASan/UBSan.
+It closes supplied-candidate verification and omitted branch-target validation
+gaps; see the [review record](docs/CHECKPOINT.md). An independent installed C++ consumer has
 executed the library and exact graph restoration. Linux/Windows execution is OPEN.
 
 Current development commands:

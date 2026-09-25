@@ -115,6 +115,16 @@ Json RewriteTransaction::self_check(const CodeImage &candidate,
       instruction = decoder.decode(edit.address, *word);
     okay = okay && instruction && instruction->valid &&
            (!edit.target || instruction->target == edit.target);
+    if (instruction &&
+        (instruction->operation == Operation::branch ||
+         instruction->operation == Operation::call ||
+         instruction->operation == Operation::conditional_branch ||
+         instruction->operation == Operation::compare_branch ||
+         instruction->operation == Operation::bit_branch))
+      // Direct branches cannot evade target validation by dropping the optional
+      // metadata field. The decoded destination must be recorded and mapped.
+      okay =
+          okay && edit.target.has_value() && instruction->target == edit.target;
     if (edit.target)
       okay = okay && candidate.valid_target(*edit.target);
     rows.push_back({{"address", hex_address(edit.address)}, {"passed", okay}});

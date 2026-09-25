@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-25",
+  "check": "CMake minimum-version preset compatibility",
+  "compiler_tool": "CMake 3.24.3",
+  "old_schema": 6,
+  "new_schema": 5,
+  "before": "Preset parsing rejected schema 6",
+  "after": "All configure, build and test presets parsed successfully",
+  "scope": "Preset parsing only; native builds and program behavior are recorded separately",
+  "official_reference": "https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#schema",
+  "hosted_workflow": ".github/workflows/verify.yml",
+  "hosted_status": "See the Actions run for the exact commit; defining a workflow is not a passing run"
+}

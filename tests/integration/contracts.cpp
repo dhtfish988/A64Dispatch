@@ -136,6 +136,21 @@ int main(int argc, char **argv) {
             "resolution artifact roundtrip");
     check(plan_from_json(plan.json()).json() == plan.json(),
           "plan artifact roundtrip");
+    auto missing_target = plan;
+    for (auto &edit : missing_target.edits)
+      edit.target.reset();
+    rejects([&] { RewriteTransaction::prepare(image, missing_target); },
+            "direct-branch edits must retain their decoded target metadata");
+    auto unmapped_target = plan;
+    unmapped_target.edits.resize(1);
+    auto &unmapped_edit = unmapped_target.edits.front();
+    const auto outside = image.regions.back().end() + 4096;
+    unmapped_edit.replacement =
+        instruction_bytes(*direct_branch(unmapped_edit.address, outside));
+    unmapped_edit.target.reset();
+    rejects(
+        [&] { RewriteTransaction::prepare(image, unmapped_target); },
+        "omitting target metadata cannot admit a branch to unmapped memory");
     auto wrong = site_json(sites.front());
     wrong["state_register"] = 2.5;
     rejects([&] { site_from_json(wrong); }, "fractional register rejected");
